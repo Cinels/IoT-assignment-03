@@ -1,16 +1,17 @@
 #include "tasks/Task.hpp"
 
-void Task::init(int period) {
+void Task::setPeriod(int period) {
     this->myPeriod = period;  
-    this->timeElapsed = 0;
 }
 
-bool Task::updateAndCheckTime(int basePeriod) {
-    this->timeElapsed += basePeriod;
-    if (this->timeElapsed >= this->myPeriod){
-        this->timeElapsed = 0;
-        return true;
-    } else {
-        return false; 
-    }
+void Task::startTask() {
+    this->taskRunning = true;
+}
+
+void Task::stopTask() {
+    this->taskRunning = false;
+}
+
+bool Task::isRunning() {
+    return this->taskRunning;
 }
