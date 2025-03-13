@@ -15,3 +15,7 @@ void Task::stopTask() {
 bool Task::isRunning() {
     return this->taskRunning;
 }
+
+int Task::getPeriod() {
+    return this->myPeriod;
+}
