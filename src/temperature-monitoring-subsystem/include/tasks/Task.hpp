@@ -4,26 +4,25 @@
 /// @brief Abstract task.
 class Task {
 private:
-    int myPeriod;
-    bool taskRunning = false;
+    int period;
+    bool running = false;
 public:
     /// @brief Initialize the task setting the base period.
     /// @param period the base period every which the task must be performed.
-    virtual void setPeriod(int period);
+    void setPeriod(int period);
     
     /// @brief This method starts the task.
-    virtual void startTask();
+    void startTask();
 
     /// @brief This method stops the task.
-    virtual void stopTask();
+    void stopTask();
 
     /// @brief Returns if the task is running or not.
     /// @return true if the task is running, false otherwise.
-    virtual bool isRunning();
+    bool isRunning();
 
-    /// @brief Returns the period of the task.
-    /// @return the period of the task.
-    virtual int getPeriod();
+    /// @brief The task to execute each period.
+    virtual void tick() = 0;
 };
 
 #endif

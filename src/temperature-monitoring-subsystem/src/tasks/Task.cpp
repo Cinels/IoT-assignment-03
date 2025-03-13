@@ -1,21 +1,22 @@
 #include "tasks/Task.hpp"
+#include "Arduino.h"
 
 void Task::setPeriod(int period) {
-    this->myPeriod = period;  
+    this->period = period;  
 }
 
 void Task::startTask() {
-    this->taskRunning = true;
+    this->running = true;
+    while(this->isRunning()) {
+        this->tick();
+        sleep(this->running);
+    }
 }
 
 void Task::stopTask() {
-    this->taskRunning = false;
+    this->running = false;
 }
 
 bool Task::isRunning() {
-    return this->taskRunning;
-}
-
-int Task::getPeriod() {
-    return this->myPeriod;
+    return this->running;
 }
