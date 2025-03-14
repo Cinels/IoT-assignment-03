@@ -1,22 +1,15 @@
+#include <Arduino.h>
 #include "tasks/Task.hpp"
-#include "Arduino.h"
+#include "tasks/taskUtils.hpp"
 
 void Task::setPeriod(int period) {
-    this->period = period;  
+    this->period = period;
 }
 
 void Task::startTask() {
-    this->running = true;
-    while(this->isRunning()) {
-        this->tick();
-        sleep(this->running);
-    }
+    xTaskCreatePinnedToCore(taskLoop, "MessageTask", 2048, this, 1, NULL, 1);
 }
 
-void Task::stopTask() {
-    this->running = false;
-}
-
-bool Task::isRunning() {
-    return this->running;
+int Task::getPeriod() {
+    return this->period;
 }
