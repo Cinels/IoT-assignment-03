@@ -1,6 +1,7 @@
 #ifndef __POTENTIOMETER__
 #define __POTENTIOMETER__
 
+/// @brief Class to manage a potentiometer.
 class Potentiometer {
 private:
     int pin;
