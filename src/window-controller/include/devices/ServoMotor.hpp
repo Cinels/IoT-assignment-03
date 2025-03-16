@@ -22,6 +22,10 @@ public:
   
   /// @brief Detaches the servo motor from the pin in order to reduce power consumption.
   void off();
+
+  /// @brief 
+  /// @return 
+  int getPosition();
 };
 
 #endif

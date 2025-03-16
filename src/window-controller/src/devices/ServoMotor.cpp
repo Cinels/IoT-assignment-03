@@ -29,3 +29,7 @@ void ServoMotor::setPosition(int angle){
 void ServoMotor::off(){
   motor.detach();    
 }
+
+int ServoMotor::getPosition() {
+  return motor.read();
+}
