@@ -3,6 +3,6 @@
 
 /// @brief Starts the execution of the task.
 /// @param parameter the task to start.
-void taskLoop(void *parameter);
+void startTask(void *parameter);
 
 #endif

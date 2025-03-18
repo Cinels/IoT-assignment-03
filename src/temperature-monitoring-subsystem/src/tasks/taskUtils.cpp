@@ -2,10 +2,10 @@
 #include "tasks/taskUtils.hpp"
 #include "tasks/Task.hpp"
 
-void taskLoop(void *parameter) {
-    auto task = ((Task*)parameter);
+void startTask(void *parameter) {
+    Task* task = ((Task*)parameter);
     while(true) {
         task->tick();
-        delay(task->getPeriod());
+        vTaskDelay(task->getPeriod() / portTICK_PERIOD_MS);
     }
 }
