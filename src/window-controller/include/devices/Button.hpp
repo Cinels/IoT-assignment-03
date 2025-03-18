@@ -5,14 +5,14 @@
 class Button {
 private:
     int pin;
+    static void interruptHandler();
 public:
     /// @brief Button constructor, it creates a button and sets the pin in INPUT mode.
     /// @param pin the input pin for the button.
     Button(int pin);
     
-    /// @brief Method that returns if the button is pressed.
-    /// @return 1 if the button is pressed, 0 otherwise.
-    int isPressed();
+    /// @brief attaches an interrupt handler to the button.
+    void attachInterrupt();
 };
 
 #endif
