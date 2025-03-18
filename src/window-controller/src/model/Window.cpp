@@ -1,4 +1,4 @@
-#include "devices/Window.hpp"
+#include "model/Window.hpp"
 #include <Arduino.h>
 
 Window::Window(int pin) {

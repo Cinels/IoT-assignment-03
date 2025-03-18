@@ -1,7 +1,7 @@
 #ifndef __WINDOW__
 #define __WINDOW__
 
-#include "ServoMotor.hpp"
+#include "devices/ServoMotor.hpp"
 
 #define WINDOW_OPEN (100)
 #define WINDOW_CLOSED (0)
