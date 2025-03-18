@@ -12,9 +12,6 @@ public:
     /// @brief Initialize the task setting the base period.
     /// @param period the base period every which the task must be performed.
     void setPeriod(int period);
-    
-    /// @brief This method starts the task.
-    void startTask();
 
     /// @brief Returns the period of the task.a
     /// @return the period of the task.
