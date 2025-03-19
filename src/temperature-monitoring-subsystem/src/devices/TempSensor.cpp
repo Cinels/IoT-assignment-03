@@ -3,7 +3,8 @@
 
 #define TENSION_ZERO_DEGREES 0.5
 #define STEP_VOLT_PER_DEGREE 0.01
-#define ANALOGUE_PRECISION 0.0032
+#define ADC_VREF 3.3
+#define ADC_RESOLUTION 4095.0
 
 TempSensor::TempSensor(int pin) {
     this->pin = pin;
@@ -11,7 +12,8 @@ TempSensor::TempSensor(int pin) {
 }
 
 float TempSensor::getTemperature() {
-    int value = analogRead(pin);
-    float valueInCelsius = ((value * ANALOGUE_PRECISION) - TENSION_ZERO_DEGREES) / STEP_VOLT_PER_DEGREE;
-    return valueInCelsius;
+    int adcVal = analogRead(pin);
+    float voltage = adcVal * (ADC_VREF / ADC_RESOLUTION);
+    float tempC = (voltage - TENSION_ZERO_DEGREES) / STEP_VOLT_PER_DEGREE;
+    return tempC;
 }
