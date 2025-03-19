@@ -4,13 +4,13 @@
 
 #define SSID ""
 #define PASSWORD ""
-#define TEMPERATURE_SENSOR_PIN 1
-#define RED_LED_PIN 2
-#define NO_ERROR_LED_PIN 3
+#define TEMPERATURE_SENSOR_PIN 4
+#define ERROR_LED_PIN 1
+#define NO_ERROR_LED_PIN 2
 
 TemperatureTask::TemperatureTask(int period) {
     this->temperatureSensor = new TempSensor(TEMPERATURE_SENSOR_PIN);
-    this->errorLed = new Led(RED_LED_PIN);
+    this->errorLed = new Led(ERROR_LED_PIN);
     this->noErrorLed = new Led(NO_ERROR_LED_PIN);
     this->temperature = this->temperatureSensor->getTemperature();
     this->setPeriod(period);
@@ -28,6 +28,7 @@ void TemperatureTask::tick() {
         Serial.println("connesso");
         //send in mqtt
     }
+    Serial.println(this->temperature);
 }
 
 void TemperatureTask::networkOk() {
