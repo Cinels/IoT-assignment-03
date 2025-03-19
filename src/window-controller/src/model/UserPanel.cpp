@@ -1,5 +1,6 @@
 #include "model/UserPanel.hpp"
 #include <Arduino.h>
+#include "tasks/WindowTask.hpp"
 
 #define POTENTIOMETER_PIN A0
 #define BUTTON_PIN 4
@@ -24,7 +25,7 @@ void UserPanel::displayWindowOpening(int opening) {
 
 void UserPanel::displayMode(int mode) {
     this->display->setText(2, 0, "Mode: ");
-    if (mode == 1) {
+    if (mode == AUTOMATIC_MODE) {
         this->display->setText(2, 6, "Automatic");
     } else {
         this->display->setText(2, 6, "Manual");
