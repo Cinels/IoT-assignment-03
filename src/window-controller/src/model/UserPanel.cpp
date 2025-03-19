@@ -18,22 +18,22 @@ int UserPanel::getWindowManualOpening() {
 }
 
 void UserPanel::displayWindowOpening(int opening) {
-    this->display->setText(1, 0, "Window opening: ");
-    this->display->setText(1, 16, String(opening));
-    this->display->setText(1, 19, "%");
+    this->display->setText(0, 1, "Window opening: ");
+    this->display->setText(16, 1, String(opening));
+    this->display->setText(19, 1, "%");
 }
 
 void UserPanel::displayMode(int mode) {
-    this->display->setText(2, 0, "Mode: ");
+    this->display->setText(0, 2, "Mode: ");
     if (mode == AUTOMATIC_MODE) {
-        this->display->setText(2, 6, "Automatic");
+        this->display->setText(6, 2, "Automatic");
     } else {
-        this->display->setText(2, 6, "Manual");
+        this->display->setText(6, 2, "Manual");
     }
 }
 
 void UserPanel::displayTemperature(float temperature) {
-    this->display->setText(3, 0, "Temperature: ");
-    this->display->setText(3, 13, String(temperature));
-    this->display->setText(3, 18, "°C");
+    this->display->setText(0, 3, "Temperature: ");
+    this->display->setText(13, 3, String(temperature));
+    this->display->setText(18, 3, "C");
 }
