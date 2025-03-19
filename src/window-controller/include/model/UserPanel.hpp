@@ -18,7 +18,10 @@ public:
     /// @brief Returns the value of opening in manual mode.
     /// @return the percentage of opening.
     int getWindowManualOpening();
-    
+
+    /// @brief Sets up the display message.
+    void setupDisplay();
+
     /// @brief Displays the window opening.
     /// @param opening the percentage of opening.
     void displayWindowOpening(int opening);

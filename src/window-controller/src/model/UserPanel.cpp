@@ -11,29 +11,38 @@ UserPanel::UserPanel() {
     this->display = new Display();
     this->display->init();
     this->button->attachInterrupt();
+    this->setupDisplay();
 }
 
 int UserPanel::getWindowManualOpening() {
     return this->potentiometer->mappedValue(0, 100);
 }
 
-void UserPanel::displayWindowOpening(int opening) {
+void UserPanel::setupDisplay() {
     this->display->setText(0, 1, "Window opening: ");
-    this->display->setText(16, 1, String(opening));
     this->display->setText(19, 1, "%");
+
+    this->display->setText(0, 2, "Mode: ");
+}
+
+void UserPanel::displayWindowOpening(int opening) {
+    this->display->setText(16, 1, "   ");
+    this->display->setText(16, 1, String(opening));
 }
 
 void UserPanel::displayMode(int mode) {
-    this->display->setText(0, 2, "Mode: ");
+    this->display->setText(6, 2, "         ");
     if (mode == AUTOMATIC_MODE) {
         this->display->setText(6, 2, "Automatic");
+        this->display->setText(0, 3, "                   ");
     } else {
         this->display->setText(6, 2, "Manual");
+        this->display->setText(0, 3, "Temperature: ");
+        this->display->setText(19, 3, "C");    
     }
 }
 
 void UserPanel::displayTemperature(float temperature) {
-    this->display->setText(0, 3, "Temperature: ");
+    this->display->setText(13, 3, "     ");
     this->display->setText(13, 3, String(temperature));
-    this->display->setText(18, 3, "C");
 }

@@ -16,8 +16,8 @@ private:
     UserPanel* userPanel;
     Window* window;
     SystemInformations* systemInformations;
-    void manualMode();
-    void automaticMode();
+    int prevOpening;
+    float prevTemperature;
     void switchMode();
 public:
     /// @brief Creates a new WindowTask.
