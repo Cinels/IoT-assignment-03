@@ -9,9 +9,9 @@ Button::Button(int pin) {
 }
 
 void Button::attachInterrupt() {
-    enableInterrupt(this->pin, interruptHandler, FALLING);
+    enableInterrupt(this->pin, buttonHandler, FALLING);
 }
 
-static void interruptHandler() {
+static void buttonHandler() {
 
 }
