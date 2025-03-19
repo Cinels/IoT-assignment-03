@@ -3,7 +3,7 @@
 
 #include "Task.hpp"
 
-/// @brief 
+/// @brief Task that handles communication with the Control Unit.
 class CommunicationTask : public Task {
 private:
     /* data */
@@ -11,7 +11,6 @@ public:
     /// @brief 
     CommunicationTask();
 
-    /// @brief 
     void tick();
 };
 
