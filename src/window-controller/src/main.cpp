@@ -20,7 +20,7 @@ void setup() {
   userPanel = new UserPanel(systemInformations);
   scheduler = new Scheduler();
   windowTask = new WindowTask(userPanel, window, systemInformations);
-  communicationTask = new CommunicationTask();
+  communicationTask = new CommunicationTask(systemInformations);
 
   scheduler->init(150);
   windowTask->init(150);
