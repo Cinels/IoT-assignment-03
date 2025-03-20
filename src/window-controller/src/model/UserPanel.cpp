@@ -5,12 +5,12 @@
 #define POTENTIOMETER_PIN A0
 #define BUTTON_PIN 4
 
-UserPanel::UserPanel() {
+UserPanel::UserPanel(SystemInformations* systemInformations) {
     this->button = new Button(BUTTON_PIN);
     this->potentiometer = new Potentiometer(POTENTIOMETER_PIN);
     this->display = new Display();
     this->display->init();
-    this->button->attachInterrupt();
+    this->button->attachInterrupt(systemInformations);
     this->setupDisplay();
 }
 

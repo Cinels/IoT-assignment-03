@@ -13,7 +13,8 @@ private:
     Potentiometer* potentiometer;
 public:
     /// @brief Constructor of the class.
-    UserPanel();
+    /// @param systemInformations the system informations.
+    UserPanel(SystemInformations* systemInformations);
     
     /// @brief Returns the value of opening in manual mode.
     /// @return the percentage of opening.
