@@ -14,6 +14,7 @@ private:
     SystemInformations* systemInformations;
     int prevOpening;
     float prevTemperature;
+    WindowMode prevMode;
 public:
     /// @brief Creates a new WindowTask.
     /// @param userPanel the user panel.

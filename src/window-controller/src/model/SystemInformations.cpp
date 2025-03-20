@@ -3,7 +3,7 @@
 SystemInformations::SystemInformations() {
     this->temperature = 0.0;
     this->windowOpening = 0;
-    this->mode = MANUAL_MODE;
+    this->mode = AUTOMATIC_MODE;
 }
 
 void SystemInformations::setTemperature(float temperature) {

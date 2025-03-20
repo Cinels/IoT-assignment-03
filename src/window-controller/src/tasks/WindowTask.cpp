@@ -6,6 +6,7 @@ WindowTask::WindowTask(UserPanel *userPanel, Window *window, SystemInformations 
     this->systemInformations = systemInformations;
     this->prevOpening = -1;
     this->prevTemperature = 100.0;
+    this->prevMode = MANUAL_MODE;
 }
 
 void WindowTask::tick() {
@@ -17,8 +18,13 @@ void WindowTask::tick() {
         this->prevOpening = this->window->getOpening();
     }
     if (this->systemInformations->getMode() == MANUAL_MODE &&
-    this->prevTemperature != this->systemInformations->getTemperature()) {
+    (this->prevTemperature != this->systemInformations->getTemperature() ||
+    this->prevMode != this->systemInformations->getMode())) {
         this->userPanel->displayTemperature(this->systemInformations->getTemperature());
         this->prevTemperature = this->systemInformations->getTemperature();
+    }
+    if (this->prevMode != this->systemInformations->getMode()) {
+        this->userPanel->displayMode(this->systemInformations->getMode());
+        this->prevMode = this->systemInformations->getMode();
     }
 }
