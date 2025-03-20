@@ -34,7 +34,7 @@ void UserPanel::displayMode(int mode) {
     this->display->setText(6, 2, "         ");
     if (mode == AUTOMATIC_MODE) {
         this->display->setText(6, 2, "Automatic");
-        this->display->setText(0, 3, "                   ");
+        this->display->setText(0, 3, "                    ");
     } else {
         this->display->setText(6, 2, "Manual");
         this->display->setText(0, 3, "Temperature: ");

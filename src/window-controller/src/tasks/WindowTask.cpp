@@ -26,7 +26,10 @@ void WindowTask::tick() {
 }
 
 void WindowTask::switchMode() {
-    if (this->mode == AUTOMATIC_MODE) this->mode = MANUAL_MODE;
+    if (this->mode == AUTOMATIC_MODE) {
+        this->mode = MANUAL_MODE;
+        this->userPanel->displayTemperature(this->systemInformations->getTemperature());
+    }
     else this->mode = AUTOMATIC_MODE;
     this->systemInformations->modeSwitched();
     this->userPanel->displayMode(this->mode);
