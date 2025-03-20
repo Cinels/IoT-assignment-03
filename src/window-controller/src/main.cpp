@@ -6,6 +6,11 @@
 #include "model/Window.hpp"
 #include "model/UserPanel.hpp"
 
+#define WINDOW_PIN 3
+#define SCHEDULER_INTERVAL 150
+#define WINDOW_TASK_INTERVAL 150
+#define COMMUNICATION_TASK_INTERVAL 300
+
 SystemInformations* systemInformations;
 Window* window;
 UserPanel* userPanel;
@@ -14,22 +19,22 @@ WindowTask* windowTask;
 CommunicationTask* communicationTask;
 
 void setup() {
-  Serial.begin(9600);
+  // create instances
   systemInformations = new SystemInformations();
-  window = new Window(3);
+  window = new Window(WINDOW_PIN);
   userPanel = new UserPanel(systemInformations);
   scheduler = new Scheduler();
   windowTask = new WindowTask(userPanel, window, systemInformations);
   communicationTask = new CommunicationTask(systemInformations, window);
 
-  scheduler->init(150);
-  windowTask->init(150);
-  communicationTask->init(300);
+  // initialize instances
+  scheduler->init(SCHEDULER_INTERVAL);
+  windowTask->init(WINDOW_TASK_INTERVAL);
+  communicationTask->init(COMMUNICATION_TASK_INTERVAL);
 
+  // add tasks to scheduler
   scheduler->addTask(windowTask);
   scheduler->addTask(communicationTask);
-
-  Serial.println("Setup done!");
 }
 
 void loop() {
