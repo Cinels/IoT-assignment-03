@@ -3,7 +3,7 @@
 #include <Servo.h>
 
 #define MOVING_TIME 70.0
-#define DEFAULT_POSITION 180
+#define DEFAULT_POSITION 0
 
 ServoMotor::ServoMotor(int pin) {
     this->pin = pin;
