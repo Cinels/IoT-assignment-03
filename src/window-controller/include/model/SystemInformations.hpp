@@ -1,12 +1,15 @@
 #ifndef __SYSTEM_INFORMATIONS__
 #define __SYSTEM_INFORMATIONS__
 
+/// @brief Enumerates the possible modes of the window system.
+typedef enum WindowMode {MANUAL_MODE, AUTOMATIC_MODE} WindowMode;
+
 /// @brief Class that represents the system informations.
 class SystemInformations {
 private:
     float temperature;
     int windowOpening;
-    bool switchMode;
+    WindowMode mode;
 public:
     /// @brief Create a new SystemInformations object.
     SystemInformations();
@@ -20,10 +23,7 @@ public:
     void setWindowOpening(int windowOpening);
 
     /// @brief Triggers the mode switch.
-    void doSwitchMode();
-
-    /// @brief Resets the mode switch.
-    void modeSwitched();
+    void switchMode();
 
     /// @brief Returns the temperature value.
     /// @return the temperature value.
@@ -33,9 +33,9 @@ public:
     /// @return the window opening percentage.
     int getWindowOpening();
 
-    /// @brief Returns if the mode must switch.
-    /// @return true if the mode must switch, false otherwise.
-    bool getSwitchMode();
+    /// @brief Returns the current mode of the system.
+    /// @return the mode of the system {AUTOMATIC; MANUAL}.
+    WindowMode getMode();
 };
 
 #endif
