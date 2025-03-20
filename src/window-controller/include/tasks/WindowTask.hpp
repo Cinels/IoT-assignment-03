@@ -23,7 +23,7 @@ public:
     /// @brief Creates a new WindowTask.
     /// @param userPanel the user panel.
     /// @param window the window.
-    /// @param systemInformations the control unit informations.
+    /// @param systemInformations the system informations.
     WindowTask(UserPanel* userPanel, Window* window, SystemInformations* systemInformations);
 
     void tick();

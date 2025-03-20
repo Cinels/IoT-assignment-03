@@ -1,7 +1,7 @@
 #ifndef __SYSTEM_INFORMATIONS__
 #define __SYSTEM_INFORMATIONS__
 
-/// @brief Class that represents the Control Unit informations.
+/// @brief Class that represents the system informations.
 class SystemInformations {
 private:
     float temperature;
