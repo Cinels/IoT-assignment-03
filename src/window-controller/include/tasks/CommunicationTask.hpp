@@ -10,6 +10,8 @@ class CommunicationTask : public Task {
 private:
     SystemInformations* systemInformations;
     Window* window;
+    void sendMessage();
+    void receiveMessage();
 public:
     /// @brief Creates a new Communication Task.
     /// @param systemInformations the system informations.

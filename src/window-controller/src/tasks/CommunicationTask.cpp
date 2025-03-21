@@ -16,6 +16,11 @@ CommunicationTask::CommunicationTask(SystemInformations* systemInformations, Win
 }
 
 void CommunicationTask::tick() {
+    this->receiveMessage();
+    this->sendMessage();
+}
+
+void CommunicationTask::receiveMessage() {
     if (Serial.available()) {
         String message = Serial.readString();
         if (message.startsWith(RECEIVE_MESSAGE_START)) {
@@ -25,6 +30,9 @@ void CommunicationTask::tick() {
             this->systemInformations->setWindowOpening(opening);
         }
     }
+}
+
+void CommunicationTask::sendMessage() {
     if (Serial.availableForWrite()) {
         String message = SEND_MESSAGE_START;
         message.concat(String(this->window->getOpening()));
