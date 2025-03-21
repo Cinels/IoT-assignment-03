@@ -6,7 +6,7 @@ import java.util.List;
  * Interface for a class that keeps track of a history of values and provides.
  */
 public interface HistoryTracker {
-    
+
     /**
      * Returns the last N values added to the history.
      * @return a list of the last N values added to the history.

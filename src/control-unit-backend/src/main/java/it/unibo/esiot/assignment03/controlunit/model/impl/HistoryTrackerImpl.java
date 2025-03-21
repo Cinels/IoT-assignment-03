@@ -8,10 +8,10 @@ import it.unibo.esiot.assignment03.controlunit.model.api.HistoryTracker;
 /**
  * Class that keeps track of a history of values and provides.
  */
-public class HistoryTrackerImpl implements HistoryTracker {
+public final class HistoryTrackerImpl implements HistoryTracker {
 
-    final static private int HISTORY_SIZE = 100;
-    final private List<Float> history;
+    private static final int HISTORY_SIZE = 100;
+    private final List<Float> history;
     private float sum;
     private float min;
     private float max;
@@ -29,7 +29,7 @@ public class HistoryTrackerImpl implements HistoryTracker {
     }
 
     @Override
-    public void addValue(float value) {
+    public void addValue(final float value) {
         this.history.add(value);
         this.sum += value;
         if (this.history.size() > HISTORY_SIZE) {
@@ -53,7 +53,7 @@ public class HistoryTrackerImpl implements HistoryTracker {
 
     @Override
     public float getAverage() {
-        return this.sum / (float) this.history.size();
+        return this.sum / this.history.size();
     }
 
     @Override
@@ -65,5 +65,4 @@ public class HistoryTrackerImpl implements HistoryTracker {
     public float getMax() {
         return this.max;
     }
-    
 }
