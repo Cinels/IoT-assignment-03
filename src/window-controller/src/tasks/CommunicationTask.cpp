@@ -6,8 +6,8 @@
 #define START_DATA_INDEX 5
 #define SEPARATOR ","
 #define OFFSET_FROM_SEPARATOR 2
-#define MANUAL_STRING " M"
-#define AUTOMATIC_STRING " A"
+#define MANUAL_STRING " Manual"
+#define AUTOMATIC_STRING " Automatic"
 
 CommunicationTask::CommunicationTask(SystemInformations* systemInformations, Window* window) {
     Serial.begin(9600);
