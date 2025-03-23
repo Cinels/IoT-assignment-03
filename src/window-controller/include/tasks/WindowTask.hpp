@@ -13,8 +13,10 @@ private:
     Window* window;
     SystemInformations* systemInformations;
     int prevOpening;
+    int prevManualOpening;
     float prevTemperature;
     WindowMode prevMode;
+    void displayData();
 public:
     /// @brief Creates a new WindowTask.
     /// @param userPanel the user panel.
