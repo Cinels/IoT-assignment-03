@@ -21,6 +21,7 @@ public final class KernelImpl implements Kernel {
     private float currentTemperature;
     private int currentWindowOpening;
     private long ts;
+    private boolean switchMode;
 
     /**
      * Creates a kernel object.
@@ -31,6 +32,7 @@ public final class KernelImpl implements Kernel {
         this.currentTemperature = 0;
         this.currentWindowOpening = 0;
         this.ts = System.currentTimeMillis();
+        this.switchMode = false;
     }
 
     @Override
@@ -102,6 +104,21 @@ public final class KernelImpl implements Kernel {
         } else {
             return F2;
         }
+    }
+
+    @Override
+    public void doSwitchMode() {
+        this.switchMode = true;
+    }
+
+    @Override
+    public void modeSwitched() {
+        this.switchMode = false;
+    }
+
+    @Override
+    public boolean isModeToSwitch() {
+        return this.switchMode;
     }
 
     private int calculateWindowOpening() {

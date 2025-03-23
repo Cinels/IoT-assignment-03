@@ -15,6 +15,7 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
     private static final String PORT = "/dev/ttyUSB0";
     private static final String SEND_MESSAGE_START = "Sys: ";
     private static final String RECEIVE_MESSAGE_START = "Win: ";
+    private static final String SWITCH_MODE_MESSAGE = "Mode";
     private static final String SEPARATOR = ", ";
     private static final int OFFSET_FROM_SEPARATOR = 2;
     private static final int BAUD_RATE = 9600;
@@ -42,8 +43,12 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
     @Override
     public String messageToSend() {
         final StringBuilder message = new StringBuilder(SEND_MESSAGE_START);
-        message.append(Float.toString(this.kernel.getCurrentTemperature())).
-            append(SEPARATOR).append(Integer.toString(this.kernel.getNextOpening()));
+        if (this.kernel.isModeToSwitch()) {
+            message.append(SWITCH_MODE_MESSAGE);
+            this.kernel.modeSwitched();
+        }
+        message.append(SEPARATOR).append(Float.toString(this.kernel.getCurrentTemperature()))
+            .append(SEPARATOR).append(Integer.toString(this.kernel.getNextOpening()));
         return message.toString();
     }
 

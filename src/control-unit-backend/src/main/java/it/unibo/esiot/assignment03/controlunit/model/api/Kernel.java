@@ -68,4 +68,20 @@ public interface Kernel {
      * @return the sampling frequency.
      */
     float getSampleFrequency();
+
+    /**
+     * Tells that the mode has to switch.
+     */
+    void doSwitchMode();
+
+    /**
+     * Tells that the mode has switched.
+     */
+    void modeSwitched();
+
+    /**
+     * Returns if the window mode has to switch.
+     * @return if the window mode has to switch.
+     */
+    boolean isModeToSwitch();
 }
