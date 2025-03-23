@@ -8,11 +8,13 @@
 #define OFFSET_FROM_SEPARATOR 2
 #define MANUAL_STRING "Manual"
 #define AUTOMATIC_STRING "Automatic"
+#define SWITCH_MODE_STRING "Mode"
 
 CommunicationTask::CommunicationTask(SystemInformations* systemInformations, Window* window) {
     Serial.begin(9600);
     this->systemInformations = systemInformations;
     this->window = window;
+    this->prevOpening = -1;
 }
 
 void CommunicationTask::tick() {
@@ -24,10 +26,18 @@ void CommunicationTask::receiveMessage() {
     if (Serial.available()) {
         String message = Serial.readString();
         if (message.startsWith(RECEIVE_MESSAGE_START)) {
-            float temperature = message.substring(START_DATA_INDEX, message.indexOf(SEPARATOR)).toFloat();
-            int opening = message.substring(message.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR).toInt();
+            String changeMode = message.substring(START_DATA_INDEX, message.indexOf(SEPARATOR));
+            float temperature = message.substring(message.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR, message.lastIndexOf(SEPARATOR)).toFloat();
+            int opening = message.substring(message.lastIndexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR).toInt();
+            if (changeMode.equals(SWITCH_MODE_STRING)) {
+                this->systemInformations->switchMode(true);
+            }
+            if (this->systemInformations->getMode() == MANUAL_MODE && this->prevOpening != opening) {
+                this->systemInformations->switchMode(true);
+            }
             this->systemInformations->setTemperature(temperature);
             this->systemInformations->setWindowOpeningGoal(opening);
+            this->prevOpening = opening;
         }
     }
 }

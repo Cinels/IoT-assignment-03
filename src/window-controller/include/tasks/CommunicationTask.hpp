@@ -10,6 +10,7 @@ class CommunicationTask : public Task {
 private:
     SystemInformations* systemInformations;
     Window* window;
+    int prevOpening;
     void sendMessage();
     void receiveMessage();
 public:
