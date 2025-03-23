@@ -10,7 +10,7 @@ void SystemInformations::setTemperature(float temperature) {
     this->temperature = temperature;
 }
 
-void SystemInformations::setWindowOpening(int windowOpening) {
+void SystemInformations::setWindowOpeningGoal(int windowOpening) {
     this->windowOpening = windowOpening;
 }
 
@@ -24,7 +24,7 @@ float SystemInformations::getTemperature() {
     return this->temperature;
 }
 
-int SystemInformations::getWindowOpening() {
+int SystemInformations::getWindowOpeningGoal() {
     return this->windowOpening;
 }
 

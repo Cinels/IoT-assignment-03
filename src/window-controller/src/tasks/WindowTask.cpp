@@ -10,9 +10,10 @@ WindowTask::WindowTask(UserPanel *userPanel, Window *window, SystemInformations 
 }
 
 void WindowTask::tick() {
-    this->window->setOpening(this->systemInformations->getMode() == AUTOMATIC_MODE ?
-        this->systemInformations->getWindowOpening() :
-        this->userPanel->getWindowManualOpening());
+    this->window->setOpening(this->systemInformations->getMode() == MANUAL_MODE ?
+        this->userPanel->getWindowManualOpening() :
+        this->systemInformations->getWindowOpeningGoal()
+    );
     if (this->prevOpening != this->window->getOpening()) {
         this->userPanel->displayWindowOpening(this->window->getOpening());
         this->prevOpening = this->window->getOpening();

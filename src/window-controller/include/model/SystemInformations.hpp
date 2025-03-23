@@ -20,7 +20,7 @@ public:
 
     /// @brief Sets the window opening percentage.
     /// @param windowOpening the window opening percentage to set.
-    void setWindowOpening(int windowOpening);
+    void setWindowOpeningGoal(int windowOpening);
 
     /// @brief Triggers the mode switch.
     void switchMode(bool isFromDashboard);
@@ -29,9 +29,9 @@ public:
     /// @return the temperature value.
     float getTemperature();
 
-    /// @brief Returns the window opening percentage.
-    /// @return the window opening percentage.
-    int getWindowOpening();
+    /// @brief Returns the window opening percentage goal.
+    /// @return the window opening percentage goal.
+    int getWindowOpeningGoal();
 
     /// @brief Returns the current mode of the system.
     /// @return the mode of the system.
