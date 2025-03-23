@@ -23,6 +23,7 @@ public:
     void setWindowOpeningGoal(int windowOpening);
 
     /// @brief Triggers the mode switch.
+    /// @param isFromDashboard tells from where the switch is triggered.
     void switchMode(bool isFromDashboard);
 
     /// @brief Returns the temperature value.

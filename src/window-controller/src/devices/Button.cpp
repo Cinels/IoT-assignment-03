@@ -16,5 +16,5 @@ void Button::attachInterrupt(SystemInformations* systemInformations) {
 }
 
 void Button::buttonHandler() {
-    sysInfo->switchMode();
+    sysInfo->switchMode(false);
 }

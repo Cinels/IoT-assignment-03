@@ -15,8 +15,8 @@ void SystemInformations::setWindowOpeningGoal(int windowOpening) {
 }
 
 void SystemInformations::switchMode(bool isFromDashboard) {
-    if (isFromDashboard && this->mode == AUTOMATIC_MODE) this->mode = DASHBOARD_MODE;
-    else if (this->mode == AUTOMATIC_MODE) this->mode = MANUAL_MODE;
+    if (isFromDashboard && !(this->mode == DASHBOARD_MODE)) this->mode = DASHBOARD_MODE;
+    else if (!(this->mode == MANUAL_MODE)) this->mode = MANUAL_MODE;
     else this->mode = AUTOMATIC_MODE;
 }
 
