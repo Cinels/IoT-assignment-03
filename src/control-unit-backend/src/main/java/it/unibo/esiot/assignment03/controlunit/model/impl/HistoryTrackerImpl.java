@@ -30,7 +30,7 @@ public final class HistoryTrackerImpl implements HistoryTracker {
 
     @Override
     public void addValue(final float value) {
-        this.history.add(new Pair<Long,Float>(System.currentTimeMillis(), value));
+        this.history.add(new Pair<>(System.currentTimeMillis(), value));
         this.sum += value;
         if (this.history.size() > HISTORY_SIZE) {
             this.sum -= this.history.remove(0).getY();
