@@ -41,7 +41,18 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
     }
 
     @Override
-    public String messageToSend() {
+    public void serialEvent(final SerialPortEvent event) {
+        if (event.isRXCHAR()) {
+            try {
+                this.messageReceived(this.serialPort.readString());
+                this.serialPort.writeString(this.messageToSend());
+            } catch (SerialPortException e) {
+                e.addSuppressed(e);
+            }
+        }
+    }
+
+    private String messageToSend() {
         final StringBuilder message = new StringBuilder(SEND_MESSAGE_START);
         if (this.kernel.isModeToSwitch()) {
             message.append(SWITCH_MODE_MESSAGE);
@@ -52,25 +63,12 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
         return message.toString();
     }
 
-    @Override
-    public void messageReceived(final String msg) {
+    private void messageReceived(final String msg) {
         if (msg.startsWith(RECEIVE_MESSAGE_START)) {
             final String opening = msg.substring(RECEIVE_MESSAGE_START.length(), msg.indexOf(SEPARATOR));
             final String mode = msg.substring(msg.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR);
             this.kernel.setCurrentWindowOpening(Integer.parseInt(opening));
             this.kernel.setWindowMode(WindowMode.valueOf(mode));
-        }
-    }
-
-    @Override
-    public void serialEvent(final SerialPortEvent event) {
-        if (event.isRXCHAR()) {
-            try {
-                this.messageReceived(this.serialPort.readString());
-                this.serialPort.writeString(this.messageToSend());
-            } catch (SerialPortException e) {
-                e.addSuppressed(e);
-            }
         }
     }
 }
