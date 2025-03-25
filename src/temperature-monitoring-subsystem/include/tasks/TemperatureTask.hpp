@@ -14,6 +14,8 @@ private:
     float temperature;
     void networkOk();
     void networkNotOk();
+    void setupConnection();
+    void callback(char* topic, byte* payload, unsigned int length);
 public:
     /// @brief Task constructor, it creates a task with a base period.
     /// @param period the base period every which the task must be performed.
@@ -22,5 +24,6 @@ public:
     /// @brief The task to execute each period.
     void tick();
 };
+
 
 #endif
