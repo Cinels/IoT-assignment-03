@@ -13,8 +13,8 @@
 #define SSID ""
 #define PASSWORD ""
 #define MQTT_SERVER "broker.mqtt-dashboard.com"
-#define TEMPERATURE_TOPIC "esiot-2024"
-#define FREQUENCY_TOPIC "esiot-2024"
+#define TEMPERATURE_TOPIC "esiot-2024-assignment03-temperature-topic"
+#define FREQUENCY_TOPIC "esiot-2024-assignment03-frequency-topic"
 #define SEND_MESSAGE_START "Tmp: "
 #define RECEIVE_MESSAGE_START "Sys: "
 #define RECEIVE_MESSAGE_LENGHT 5
@@ -42,16 +42,11 @@ void TemperatureTask::tick() {
         this->networkOk();
         client.loop();
         char msg[MSG_BUFFER_SIZE];
-
         String message = SEND_MESSAGE_START;
         message += this->temperature;
-
-        Serial.println(message);
-
         snprintf(msg, MSG_BUFFER_SIZE, message.c_str());
         client.publish(TEMPERATURE_TOPIC, msg);  
     }
-    Serial.println(this->temperature);
 }
 
 void TemperatureTask::networkOk() {
@@ -70,12 +65,12 @@ void TemperatureTask::setupConnection() {
         delay(CONNECTION_DELAY);
     }
     if (WiFi.isConnected() && !client.connected()) {
+        client.setServer(MQTT_SERVER, PORT);
+        std::function<void(char*, uint8_t*, unsigned int)> callbackFunction;
+        client.setCallback(callbackFunction);
         String clientId = String("esiot-2024-client-")+String(random(0xffff), HEX);
         if (client.connect(clientId.c_str())) {
             client.subscribe(FREQUENCY_TOPIC);
-            client.setServer(MQTT_SERVER, PORT);
-            std::function<void(char*, uint8_t*, unsigned int)> callbackFunction;
-            client.setCallback(callbackFunction);
         }
     }
 }
