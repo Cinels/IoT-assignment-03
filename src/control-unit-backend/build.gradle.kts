@@ -27,8 +27,11 @@ dependencies {
     implementation("com.omertron:API-OMDB:1.5")
     implementation("org.jooq:jool:0.9.15")
 
-    // https://mvnrepository.com/artifact/org.scream3r/jssc
     implementation("org.scream3r:jssc:2.8.0")
+
+    implementation("io.netty:netty-codec-mqtt:4.1.65.Final")
+    implementation("io.vertx:vertx-core:4.1.5")
+    implementation("io.vertx:vertx-mqtt:4.1.5")
 
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j
