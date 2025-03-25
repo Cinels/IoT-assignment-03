@@ -2,6 +2,8 @@ package it.unibo.esiot.assignment03.controlunit.model.api;
 
 import java.util.List;
 
+import it.unibo.esiot.assignment03.controlunit.model.impl.Pair;
+
 /**
  * Interface for a class that keeps track of a history of values and provides.
  */
@@ -9,9 +11,9 @@ public interface HistoryTracker {
 
     /**
      * Returns the last N values added to the history.
-     * @return a list of the last N values added to the history.
+     * @return a list of the last N values added to the history with the corrispondent time in milliseconds.
      */
-    List<Float> getHistory();
+    List<Pair<Long, Float>> getHistory();
 
     /**
      * Adds a value to the history.

@@ -11,7 +11,7 @@ import it.unibo.esiot.assignment03.controlunit.model.api.HistoryTracker;
 public final class HistoryTrackerImpl implements HistoryTracker {
 
     private static final int HISTORY_SIZE = 100;
-    private final List<Float> history;
+    private final List<Pair<Long, Float>> history;
     private float sum;
     private float min;
     private float max;
@@ -24,16 +24,16 @@ public final class HistoryTrackerImpl implements HistoryTracker {
     }
 
     @Override
-    public List<Float> getHistory() {
+    public List<Pair<Long, Float>> getHistory() {
         return List.copyOf(this.history);
     }
 
     @Override
     public void addValue(final float value) {
-        this.history.add(value);
+        this.history.add(new Pair<Long,Float>(System.currentTimeMillis(), value));
         this.sum += value;
         if (this.history.size() > HISTORY_SIZE) {
-            this.sum -= this.history.remove(0);
+            this.sum -= this.history.remove(0).getY();
         }
         if (this.history.isEmpty() || value < this.min) {
             this.min = value;
