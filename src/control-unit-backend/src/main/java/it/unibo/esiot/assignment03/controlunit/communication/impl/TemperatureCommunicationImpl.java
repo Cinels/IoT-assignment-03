@@ -3,6 +3,7 @@ package it.unibo.esiot.assignment03.controlunit.communication.impl;
 import it.unibo.esiot.assignment03.controlunit.communication.api.TemperatureCommunication;
 import it.unibo.esiot.assignment03.controlunit.model.api.HistoryTracker;
 import it.unibo.esiot.assignment03.controlunit.model.api.Kernel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.mqtt.MqttClient;
 import io.vertx.core.buffer.Buffer;
@@ -29,6 +30,11 @@ public final class TemperatureCommunicationImpl extends AbstractVerticle impleme
      * @param history the {@link HistoryTracker} instance used to track temperature history.
      * @param kernel the {@link Kernel} instance used to manage the system's state and temperature.
      */
+    @SuppressFBWarnings(
+        value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "The communications between the control unit and the temperature controller"
+            + "need to store data and send stored data."
+    )
     public TemperatureCommunicationImpl(final HistoryTracker history, final Kernel kernel) {
         this.client = MqttClient.create(vertx);
         this.history = history;

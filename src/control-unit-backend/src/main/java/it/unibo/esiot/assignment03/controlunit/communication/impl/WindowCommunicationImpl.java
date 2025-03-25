@@ -4,6 +4,7 @@ import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.esiot.assignment03.controlunit.communication.api.WindowCommunication;
 import it.unibo.esiot.assignment03.controlunit.model.api.Kernel;
 import it.unibo.esiot.assignment03.controlunit.model.states.WindowMode;
@@ -27,6 +28,11 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
      * Creates a window communication object.
      * @param kernel the kernel of the Control Unit.
      */
+    @SuppressFBWarnings(
+        value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "The communications between the control unit and the window controller"
+            + "need to store data and send stored data."
+    )
     public WindowCommunicationImpl(final Kernel kernel) {
         this.kernel = kernel;
         serialPort = new SerialPort(PORT);
