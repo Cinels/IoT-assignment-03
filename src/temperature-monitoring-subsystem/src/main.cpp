@@ -1,18 +1,16 @@
 #include <Arduino.h>
+#include "tasks/taskUtils.hpp"
+#include "tasks/TemperatureTask.hpp"
 
-// put function declarations here:
-int myFunction(int, int);
+TaskHandle_t* taskHandler;
+TemperatureTask* task;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  task = new TemperatureTask(500);
+  xTaskCreate(startTask, "TemperatureTask", 2048, task, 1, taskHandler);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  delay(1000);
 }
