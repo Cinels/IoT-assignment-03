@@ -1,7 +1,6 @@
 package it.unibo.esiot.assignment03.controlunit.communication.impl;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -54,16 +53,19 @@ public final class MyCallback implements MqttCallback {
 
     @Override
     public void messageArrived(final String topic, final MqttMessage message) {
-        final String msg = Arrays.toString(message.getPayload());
+        final String msg = message.toString();
         if (msg.startsWith(RECEIVE_MESSAGE_START)) {
             this.kernel.setCurrentTemperature(Float.parseFloat(
                 msg.substring(RECEIVE_MESSAGE_START.length())));
             this.history.addValue(this.kernel.getCurrentTemperature());
         }
+        this.sendMessage();
     }
 
     @Override
-    public void deliveryComplete(final IMqttDeliveryToken token) {
+    public void deliveryComplete(final IMqttDeliveryToken token) { }
+
+    private void sendMessage() {
         final StringBuilder msg = new StringBuilder(SEND_MESSAGE_START);
         msg.append(this.kernel.getSampleFrequency());
         final MqttMessage message = new MqttMessage(msg.toString().getBytes(Charset.defaultCharset()));
