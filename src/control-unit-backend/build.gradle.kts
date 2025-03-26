@@ -29,9 +29,7 @@ dependencies {
 
     implementation("org.scream3r:jssc:2.8.0")
 
-    implementation("io.netty:netty-codec-mqtt:4.1.65.Final")
-    implementation("io.vertx:vertx-core:4.1.5")
-    implementation("io.vertx:vertx-mqtt:4.1.5")
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 
     /*
      * Simple Logging Facade for Java (SLF4J) with Apache Log4j
