@@ -8,7 +8,7 @@
 #define ERROR_LED_PIN 1
 #define NO_ERROR_LED_PIN 2
 #define CONNECTION_DELAY 500
-#define ONE_SECOND_PERIOD 1000
+#define ONE_SECOND_PERIOD 1000.0
 #define PORT 1883
 #define SSID ""
 #define PASSWORD ""
@@ -18,6 +18,7 @@
 #define SEND_MESSAGE_START "Tmp: "
 #define RECEIVE_MESSAGE_START "Sys: "
 #define RECEIVE_MESSAGE_LENGHT 5
+#define END_CHARACTER '\0'
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -66,7 +67,9 @@ void TemperatureTask::setupConnection() {
     }
     if (WiFi.isConnected() && !client.connected()) {
         client.setServer(MQTT_SERVER, PORT);
-        std::function<void(char*, uint8_t*, unsigned int)> callbackFunction;
+        auto callbackFunction = [this](char* topic, uint8_t* payload, unsigned int length) {
+            this->callback(topic, payload, length);
+        };
         client.setCallback(callbackFunction);
         String clientId = String("esiot-2024-client-")+String(random(0xffff), HEX);
         if (client.connect(clientId.c_str())) {
@@ -76,9 +79,12 @@ void TemperatureTask::setupConnection() {
 }
 
 void TemperatureTask::callback(char* topic, byte* payload, unsigned int length) {
-    String message = (char*) payload;
+    char msg[length + 1];
+    memcpy(msg, payload, length);
+    msg[length] = END_CHARACTER;
+    String message = String(msg);
     if (message.startsWith(RECEIVE_MESSAGE_START)) {
         float freq = message.substring(RECEIVE_MESSAGE_LENGHT).toFloat();
-        this->setPeriod(ONE_SECOND_PERIOD/freq);
+        this->setPeriod(ONE_SECOND_PERIOD / freq);
     }
 }
