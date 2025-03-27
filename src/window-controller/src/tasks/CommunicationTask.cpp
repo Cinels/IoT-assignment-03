@@ -1,6 +1,7 @@
 #include "tasks/CommunicationTask.hpp"
 #include <Arduino.h>
 
+#define BAUD_RATE 115200
 #define SEND_MESSAGE_START "Win: "
 #define RECEIVE_MESSAGE_START "Sys: "
 #define START_DATA_INDEX 5
@@ -11,7 +12,7 @@
 #define SWITCH_MODE_STRING "Mode"
 
 CommunicationTask::CommunicationTask(SystemInformations* systemInformations, Window* window) {
-    Serial.begin(9600);
+    Serial.begin(BAUD_RATE);
     this->systemInformations = systemInformations;
     this->window = window;
     this->prevOpening = -1;
