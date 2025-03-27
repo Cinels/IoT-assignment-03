@@ -27,7 +27,7 @@ dependencies {
     implementation("com.omertron:API-OMDB:1.5")
     implementation("org.jooq:jool:0.9.15")
 
-    implementation("org.scream3r:jssc:2.8.0")
+    implementation("io.github.java-native:jssc:2.9.6")
 
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 

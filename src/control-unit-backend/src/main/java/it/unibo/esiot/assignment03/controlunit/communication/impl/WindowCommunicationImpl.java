@@ -4,6 +4,12 @@ import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Locale;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.esiot.assignment03.controlunit.communication.api.WindowCommunication;
 import it.unibo.esiot.assignment03.controlunit.model.api.Kernel;
@@ -13,16 +19,17 @@ import it.unibo.esiot.assignment03.controlunit.model.states.WindowMode;
  * Implementation of the communication between the Control Unit and the Window controller.
  */
 public final class WindowCommunicationImpl implements WindowCommunication, SerialPortEventListener {
-    private static final String PORT = "/dev/ttyUSB0";
+    private static final String PORT = "COM9";
     private static final String SEND_MESSAGE_START = "Sys: ";
     private static final String RECEIVE_MESSAGE_START = "Win: ";
     private static final String SWITCH_MODE_MESSAGE = "Mode";
     private static final String SEPARATOR = ", ";
+    private static final char END_OF_LINE = '\n';
     private static final int OFFSET_FROM_SEPARATOR = 2;
-    private static final int BAUD_RATE = 9600;
 
     private final Kernel kernel;
     private final SerialPort serialPort;
+    private ByteArrayOutputStream receivedDataBuffer = new ByteArrayOutputStream();
 
     /**
      * Creates a window communication object.
@@ -35,12 +42,12 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
     )
     public WindowCommunicationImpl(final Kernel kernel) {
         this.kernel = kernel;
-        serialPort = new SerialPort(PORT);
+        this.serialPort = new SerialPort(PORT);
         try {
-            serialPort.openPort();
-            serialPort.setParams(BAUD_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
-            serialPort.addEventListener(this);
+            this.serialPort.openPort();
+            this.serialPort.setParams(SerialPort.BAUDRATE_115200, SerialPort.DATABITS_8,
+                SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+            this.serialPort.addEventListener(this);
         } catch (SerialPortException e) {
             e.addSuppressed(e);
         }
@@ -50,9 +57,10 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
     public void serialEvent(final SerialPortEvent event) {
         if (event.isRXCHAR()) {
             try {
-                this.messageReceived(this.serialPort.readString());
+                this.receivedDataBuffer.write(this.serialPort.readBytes(event.getEventValue()));
+                this.messageReceived();
                 this.serialPort.writeString(this.messageToSend());
-            } catch (SerialPortException e) {
+            } catch (SerialPortException | IOException e) {
                 e.addSuppressed(e);
             }
         }
@@ -69,12 +77,31 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
         return message.toString();
     }
 
-    private void messageReceived(final String msg) {
-        if (msg.startsWith(RECEIVE_MESSAGE_START)) {
-            final String opening = msg.substring(RECEIVE_MESSAGE_START.length(), msg.indexOf(SEPARATOR));
-            final String mode = msg.substring(msg.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR);
+    private void messageReceived() {
+        final byte[] receivedBytes = receivedDataBuffer.toByteArray();
+        String receivedLine = "";
+        for (int i = 0; i < receivedBytes.length; i++) {
+            if ((char) receivedBytes[i] == END_OF_LINE) {
+                final byte[] lineBytes = new byte[i + 1];
+                System.arraycopy(receivedBytes, 0, lineBytes, 0, i + 1);
+                receivedLine = new String(lineBytes, Charset.defaultCharset()).trim();
+
+                final ByteArrayOutputStream tempBuffer = new ByteArrayOutputStream();
+                tempBuffer.write(receivedBytes, i + 1, receivedBytes.length - (i + 1));
+                receivedDataBuffer = tempBuffer;
+                break;
+            }
+        }
+
+        if (receivedLine.startsWith(RECEIVE_MESSAGE_START)) {
+            final String opening = receivedLine.substring(RECEIVE_MESSAGE_START.length(), receivedLine.indexOf(SEPARATOR));
+            final String mode = receivedLine.substring(receivedLine.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR);
             this.kernel.setCurrentWindowOpening(Integer.parseInt(opening));
-            this.kernel.setWindowMode(WindowMode.valueOf(mode));
+            try {
+                this.kernel.setWindowMode(WindowMode.valueOf(mode.toUpperCase(Locale.getDefault())));
+            } catch (IllegalArgumentException e) {
+                e.addSuppressed(e);
+            }
         }
     }
 }
