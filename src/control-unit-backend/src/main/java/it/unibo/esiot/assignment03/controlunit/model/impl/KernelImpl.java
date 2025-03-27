@@ -70,17 +70,18 @@ public final class KernelImpl implements Kernel {
     @Override
     public void setCurrentTemperature(final float temperature) {
         this.currentTemperature = temperature;
-        if (this.temperatureState == TemperatureState.ALARM) { }
-        else if (temperature > T1 && temperature <= T2) {
-            this.temperatureState = TemperatureState.HOT;
-            this.ts = System.currentTimeMillis();
-        } else if (temperature > T2 && System.currentTimeMillis() - this.ts < ALARM_TIME) {
-            this.temperatureState = TemperatureState.TOO_HOT;
-        } else if (temperature > T2 && System.currentTimeMillis() - this.ts >= ALARM_TIME) {
-            this.temperatureState = TemperatureState.ALARM;
-        } else {
-            this.temperatureState = TemperatureState.NORMAL;
-            this.ts = System.currentTimeMillis();
+        if (this.temperatureState != TemperatureState.ALARM) {
+            if (temperature > T1 && temperature <= T2) {
+                this.temperatureState = TemperatureState.HOT;
+                this.ts = System.currentTimeMillis();
+            } else if (temperature > T2 && System.currentTimeMillis() - this.ts < ALARM_TIME) {
+                this.temperatureState = TemperatureState.TOO_HOT;
+            } else if (temperature > T2 && System.currentTimeMillis() - this.ts >= ALARM_TIME) {
+                this.temperatureState = TemperatureState.ALARM;
+            } else {
+                this.temperatureState = TemperatureState.NORMAL;
+                this.ts = System.currentTimeMillis();
+            }
         }
     }
 
