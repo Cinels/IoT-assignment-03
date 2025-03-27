@@ -8,6 +8,7 @@ import jssc.SerialPortException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Locale;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -97,10 +98,8 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
             final String opening = receivedLine.substring(RECEIVE_MESSAGE_START.length(), receivedLine.indexOf(SEPARATOR));
             final String mode = receivedLine.substring(receivedLine.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR);
             this.kernel.setCurrentWindowOpening(Integer.parseInt(opening));
-            try {
+            if (Arrays.asList(WindowMode.values()).stream().anyMatch(t -> t.toString().equals(mode))) {
                 this.kernel.setWindowMode(WindowMode.valueOf(mode.toUpperCase(Locale.getDefault())));
-            } catch (IllegalArgumentException e) {
-                e.addSuppressed(e);
             }
         }
     }
