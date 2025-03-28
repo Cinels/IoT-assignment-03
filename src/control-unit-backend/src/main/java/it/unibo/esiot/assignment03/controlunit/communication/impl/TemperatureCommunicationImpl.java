@@ -28,9 +28,35 @@ public final class TemperatureCommunicationImpl implements TemperatureCommunicat
      */
     public TemperatureCommunicationImpl(final HistoryTracker history, final Kernel kernel) throws MqttException {
         this.client = new MqttClient(BROKER_ADDRESS, CLIENT_ID);
+        this.connectWithRetry(history, kernel);
+    }
+
+    private void connectWithRetry(final HistoryTracker history, final Kernel kernel) throws MqttException {
+        int attempts = 0;
+        final int maxAttempts = 5;
+        int delay = 1000;
         final MqttConnectOptions options = new MqttConnectOptions();
-        this.client.connect(options);
-        this.client.setCallback(new MyCallback(this.client, history, kernel));
-        this.client.subscribe(TEMPERATURE_TOPIC, QOS);
+
+        while (attempts < maxAttempts) {
+            try {
+                this.client.connect(options);
+                this.client.setCallback(new MyCallback(this.client, history, kernel));
+                this.client.subscribe(TEMPERATURE_TOPIC, QOS);
+                return;
+            } catch (MqttException e) {
+                attempts++;
+                if (attempts < maxAttempts) {
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                    delay *= 2;
+                } else {
+                    throw new MqttException(e);
+                }
+            }
+        }
     }
 }
