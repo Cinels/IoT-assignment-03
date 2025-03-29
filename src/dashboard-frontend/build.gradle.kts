@@ -45,5 +45,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("it.unibo.oesiot.assignment03.dashboard.App")
+    mainClass.set("it.unibo.esiot.assignment03.dashboard.App")
 }
