@@ -1,6 +1,7 @@
 package it.unibo.esiot.assignment03.controlunit.communication.impl;
 
 import it.unibo.esiot.assignment03.controlunit.communication.api.TemperatureCommunication;
+import it.unibo.esiot.assignment03.controlunit.controller.api.TemperatureController;
 import it.unibo.esiot.assignment03.controlunit.model.api.HistoryTracker;
 import it.unibo.esiot.assignment03.controlunit.model.api.Kernel;
 
@@ -26,12 +27,12 @@ public final class TemperatureCommunicationImpl implements TemperatureCommunicat
      * @param kernel the {@link Kernel} instance used to manage the system's state and temperature.
      * @throws MqttException if an error occurs during the initialization or connection of the MQTT client.
      */
-    public TemperatureCommunicationImpl(final HistoryTracker history, final Kernel kernel) throws MqttException {
+    public TemperatureCommunicationImpl(final TemperatureController controller) throws MqttException {
         this.client = new MqttClient(BROKER_ADDRESS, CLIENT_ID);
-        this.connectWithRetry(history, kernel);
+        this.connectWithRetry(controller);
     }
 
-    private void connectWithRetry(final HistoryTracker history, final Kernel kernel) throws MqttException {
+    private void connectWithRetry(final TemperatureController controller) throws MqttException {
         int attempts = 0;
         final int maxAttempts = 5;
         int delay = 1000;
@@ -40,7 +41,7 @@ public final class TemperatureCommunicationImpl implements TemperatureCommunicat
         while (attempts < maxAttempts) {
             try {
                 this.client.connect(options);
-                this.client.setCallback(new MyCallback(this.client, history, kernel));
+                this.client.setCallback(new MyCallback(this.client, controller));
                 this.client.subscribe(TEMPERATURE_TOPIC, QOS);
                 return;
             } catch (MqttException e) {

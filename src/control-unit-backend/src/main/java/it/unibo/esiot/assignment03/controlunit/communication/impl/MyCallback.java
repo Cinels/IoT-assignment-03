@@ -9,8 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.esiot.assignment03.controlunit.model.api.HistoryTracker;
-import it.unibo.esiot.assignment03.controlunit.model.api.Kernel;
+import it.unibo.esiot.assignment03.controlunit.controller.api.TemperatureController;
 
 /**
  * Implementation for {@link MqttCallback}.
@@ -22,8 +21,7 @@ public final class MyCallback implements MqttCallback {
     private static final int QOS = 1;
 
     private final MqttClient client;
-    private final HistoryTracker history;
-    private final Kernel kernel;
+    private final TemperatureController controller;
 
     /**
      * Constructs a new MyCallback instance.
@@ -36,10 +34,9 @@ public final class MyCallback implements MqttCallback {
         justification = "The communications between the control unit and the temperature controller"
             + "need to store data and send stored data."
     )
-    public MyCallback(final MqttClient client, final HistoryTracker history, final Kernel kernel) {
+    public MyCallback(final MqttClient client, final TemperatureController controller) {
         this.client = client;
-        this.history = history;
-        this.kernel = kernel;
+        this.controller = controller;
     }
 
     @Override
@@ -55,9 +52,9 @@ public final class MyCallback implements MqttCallback {
     public void messageArrived(final String topic, final MqttMessage message) {
         final String msg = message.toString();
         if (msg.startsWith(RECEIVE_MESSAGE_START)) {
-            this.kernel.setCurrentTemperature(Float.parseFloat(
-                msg.substring(RECEIVE_MESSAGE_START.length())));
-            this.history.addValue(this.kernel.getCurrentTemperature());
+            final Float temperature = Float.parseFloat(msg.substring(RECEIVE_MESSAGE_START.length()));
+            this.controller.setCurrentTemperature(temperature);
+            this.controller.addValueToHistory(temperature);
         }
         this.sendMessage();
     }
@@ -67,7 +64,7 @@ public final class MyCallback implements MqttCallback {
 
     private void sendMessage() {
         final StringBuilder msg = new StringBuilder(SEND_MESSAGE_START);
-        msg.append(this.kernel.getSampleFrequency());
+        msg.append(this.controller.getSampleFrequency());
         final MqttMessage message = new MqttMessage(msg.toString().getBytes(Charset.defaultCharset()));
         message.setQos(QOS);
         try {
