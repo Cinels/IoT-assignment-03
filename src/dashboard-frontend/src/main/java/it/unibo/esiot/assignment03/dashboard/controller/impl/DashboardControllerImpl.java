@@ -18,7 +18,7 @@ public final class DashboardControllerImpl implements DashboardController {
      * Creates a dashboard controller.
      * @param data the system data.
      */
-	@SuppressFBWarnings(
+    @SuppressFBWarnings(
         value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
         justification = "The communications between the control unit and the dashboard"
             + "need to store data and send stored data."
