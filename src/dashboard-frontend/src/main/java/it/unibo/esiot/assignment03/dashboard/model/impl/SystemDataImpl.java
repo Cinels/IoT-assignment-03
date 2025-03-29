@@ -3,6 +3,7 @@ package it.unibo.esiot.assignment03.dashboard.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.esiot.assignment03.dashboard.model.api.SystemData;
 import it.unibo.esiot.assignment03.dashboard.model.states.TemperatureState;
 import it.unibo.esiot.assignment03.dashboard.model.states.WindowMode;
@@ -11,7 +12,7 @@ import it.unibo.esiot.assignment03.dashboard.model.states.WindowMode;
  * Implementation of {@link SystemData}.
  */
 public final class SystemDataImpl implements SystemData {
-    private final static float DEFAULT_TEMPERATURE = 0.0f;
+    private static final float DEFAULT_TEMPERATURE = 0.0f;
 
     private float currentTemperature;
     private float maxTemperature;
@@ -143,6 +144,10 @@ public final class SystemDataImpl implements SystemData {
     }
 
     @Override
+    @SuppressFBWarnings(
+        value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
+        justification = "The history list has to be updated each time is sent"
+    )
     public void setTemperatureHistory(final List<Pair<Long, Float>> history) {
         this.history = history;
     }
