@@ -58,6 +58,12 @@ public interface Kernel {
     void setCurrentWindowOpening(int opening);
 
     /**
+     * Sets the window opening if the window is in manual mode.
+     * @param opening the opening of the window.
+     */
+    void setManualWindowOpening(int opening);
+
+    /**
      * Returns the percentage to open the window.
      * @return the percentage to open the window.
      */

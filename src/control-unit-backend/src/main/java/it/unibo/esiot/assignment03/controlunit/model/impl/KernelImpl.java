@@ -20,6 +20,7 @@ public final class KernelImpl implements Kernel {
     private WindowMode windowMode;
     private float currentTemperature;
     private int currentWindowOpening;
+    private int manualOpening;
     private long ts;
     private boolean switchMode;
 
@@ -31,6 +32,7 @@ public final class KernelImpl implements Kernel {
         this.windowMode = WindowMode.AUTOMATIC;
         this.currentTemperature = 0;
         this.currentWindowOpening = 0;
+        this.manualOpening = 0;
         this.ts = System.currentTimeMillis();
         this.switchMode = false;
     }
@@ -86,18 +88,27 @@ public final class KernelImpl implements Kernel {
     }
 
     @Override
+    public void setManualWindowOpening(final int opening) {
+        this.manualOpening = opening;
+    }
+
+    @Override
     public void setCurrentWindowOpening(final int opening) {
         this.currentWindowOpening = opening;
     }
 
     @Override
     public int getNextOpening() {
-        return switch (this.temperatureState) {
-            case NORMAL -> 0;
-            case HOT -> calculateWindowOpening();
-            case TOO_HOT -> MAX_PERCENTAGE;
-            case ALARM -> MAX_PERCENTAGE;
-        };
+        if (this.windowMode == WindowMode.AUTOMATIC) {
+            return switch (this.temperatureState) {
+                case NORMAL -> 0;
+                case HOT -> calculateWindowOpening();
+                case TOO_HOT -> MAX_PERCENTAGE;
+                case ALARM -> MAX_PERCENTAGE;
+            };
+        } else {
+            return this.manualOpening;
+        }
     }
 
     @Override
