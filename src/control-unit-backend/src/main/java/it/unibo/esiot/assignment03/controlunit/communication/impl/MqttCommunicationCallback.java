@@ -14,7 +14,7 @@ import it.unibo.esiot.assignment03.controlunit.controller.api.TemperatureControl
 /**
  * Implementation for {@link MqttCallback}.
  */
-public final class MyCallback implements MqttCallback {
+public final class MqttCommunicationCallback implements MqttCallback {
     private static final String FREQUENCY_TOPIC = "esiot-2024-assignment03-frequency-topic";
     private static final String SEND_MESSAGE_START = "Sys: ";
     private static final String RECEIVE_MESSAGE_START = "Tmp: ";
@@ -33,7 +33,7 @@ public final class MyCallback implements MqttCallback {
         justification = "The communications between the control unit and the temperature controller"
             + "need to store data and send stored data."
     )
-    public MyCallback(final MqttClient client, final TemperatureController controller) {
+    public MqttCommunicationCallback(final MqttClient client, final TemperatureController controller) {
         this.client = client;
         this.controller = controller;
     }

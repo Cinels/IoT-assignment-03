@@ -38,7 +38,7 @@ public final class TemperatureCommunicationImpl implements TemperatureCommunicat
         while (attempts < maxAttempts) {
             try {
                 this.client.connect(options);
-                this.client.setCallback(new MyCallback(this.client, controller));
+                this.client.setCallback(new MqttCommunicationCallback(this.client, controller));
                 this.client.subscribe(TEMPERATURE_TOPIC, QOS);
                 return;
             } catch (MqttException e) {
