@@ -41,9 +41,9 @@ public interface Kernel {
 
     /**
      * Updates the window modality.
-     * @param state the modality of the window.
+     * @param mode the modality of the window.
      */
-    void setWindowMode(WindowMode state);
+    void setWindowMode(WindowMode mode);
 
     /**
      * Updates the current temperature.

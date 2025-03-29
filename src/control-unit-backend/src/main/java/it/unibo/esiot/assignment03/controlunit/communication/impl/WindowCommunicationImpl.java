@@ -13,7 +13,7 @@ import java.util.Locale;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.esiot.assignment03.controlunit.communication.api.WindowCommunication;
-import it.unibo.esiot.assignment03.controlunit.model.api.Kernel;
+import it.unibo.esiot.assignment03.controlunit.controller.api.WindowController;
 import it.unibo.esiot.assignment03.controlunit.model.states.WindowMode;
 
 /**
@@ -28,21 +28,21 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
     private static final char END_OF_LINE = '\n';
     private static final int OFFSET_FROM_SEPARATOR = 2;
 
-    private final Kernel kernel;
+    private final WindowController controller;
     private final SerialPort serialPort;
     private ByteArrayOutputStream receivedDataBuffer = new ByteArrayOutputStream();
 
     /**
      * Creates a window communication object.
-     * @param kernel the kernel of the Control Unit.
+     * @param controller the kernel of the Control Unit.
      */
     @SuppressFBWarnings(
         value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
         justification = "The communications between the control unit and the window controller"
             + "need to store data and send stored data."
     )
-    public WindowCommunicationImpl(final Kernel kernel) {
-        this.kernel = kernel;
+    public WindowCommunicationImpl(final WindowController controller) {
+        this.controller = controller;
         this.serialPort = new SerialPort(PORT);
         try {
             this.serialPort.openPort();
@@ -69,12 +69,12 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
 
     private String messageToSend() {
         final StringBuilder message = new StringBuilder(SEND_MESSAGE_START);
-        if (this.kernel.isModeToSwitch()) {
+        if (this.controller.isModeToSwitch()) {
             message.append(SWITCH_MODE_MESSAGE);
-            this.kernel.modeSwitched();
+            this.controller.modeSwitched();
         }
-        message.append(SEPARATOR).append(Float.toString(this.kernel.getCurrentTemperature()))
-            .append(SEPARATOR).append(Integer.toString(this.kernel.getNextOpening()));
+        message.append(SEPARATOR).append(this.controller.getCurrentTemperature())
+            .append(SEPARATOR).append(this.controller.getNextOpening());
         return message.toString();
     }
 
@@ -97,9 +97,9 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
         if (receivedLine.startsWith(RECEIVE_MESSAGE_START)) {
             final String opening = receivedLine.substring(RECEIVE_MESSAGE_START.length(), receivedLine.indexOf(SEPARATOR));
             final String mode = receivedLine.substring(receivedLine.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR);
-            this.kernel.setCurrentWindowOpening(Integer.parseInt(opening));
+            this.controller.setCurrentWindowOpening(Integer.parseInt(opening));
             if (Arrays.asList(WindowMode.values()).stream().anyMatch(t -> t.toString().equals(mode))) {
-                this.kernel.setWindowMode(WindowMode.valueOf(mode.toUpperCase(Locale.getDefault())));
+                this.controller.setWindowMode(WindowMode.valueOf(mode.toUpperCase(Locale.getDefault())));
             }
         }
     }
