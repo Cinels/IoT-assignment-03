@@ -20,7 +20,7 @@ public final class TemperatureCommunicationImpl implements TemperatureCommunicat
     private final MqttClient client;
 
     /**
-     * Initializes the MQTT client, history tracker, and kernel.
+     * Initializes the MQTT client and controller.
      * @param controller the {@link TemperatureController} used to communicate to system data.
      * @throws MqttException if an error occurs during the initialization or connection of the MQTT client.
      */

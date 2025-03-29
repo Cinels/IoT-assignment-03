@@ -34,7 +34,7 @@ public final class WindowCommunicationImpl implements WindowCommunication, Seria
 
     /**
      * Creates a window communication object.
-     * @param controller the kernel of the Control Unit.
+     * @param controller the controller for the window communication.
      */
     @SuppressFBWarnings(
         value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
