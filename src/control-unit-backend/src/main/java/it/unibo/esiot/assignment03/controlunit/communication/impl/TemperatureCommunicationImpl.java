@@ -2,8 +2,6 @@ package it.unibo.esiot.assignment03.controlunit.communication.impl;
 
 import it.unibo.esiot.assignment03.controlunit.communication.api.TemperatureCommunication;
 import it.unibo.esiot.assignment03.controlunit.controller.api.TemperatureController;
-import it.unibo.esiot.assignment03.controlunit.model.api.HistoryTracker;
-import it.unibo.esiot.assignment03.controlunit.model.api.Kernel;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -23,8 +21,7 @@ public final class TemperatureCommunicationImpl implements TemperatureCommunicat
 
     /**
      * Initializes the MQTT client, history tracker, and kernel.
-     * @param history the {@link HistoryTracker} instance used to track temperature history.
-     * @param kernel the {@link Kernel} instance used to manage the system's state and temperature.
+     * @param controller the {@link TemperatureController} used to communicate to system data.
      * @throws MqttException if an error occurs during the initialization or connection of the MQTT client.
      */
     public TemperatureCommunicationImpl(final TemperatureController controller) throws MqttException {

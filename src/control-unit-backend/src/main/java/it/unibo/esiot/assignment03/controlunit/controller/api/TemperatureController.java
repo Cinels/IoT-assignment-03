@@ -1,7 +1,10 @@
 package it.unibo.esiot.assignment03.controlunit.controller.api;
 
+/**
+ * Controller for temperature communications.
+ */
 public interface TemperatureController {
-    
+
     /**
      * Updates the current temperature.
      * @param temperature the temperature of the room.

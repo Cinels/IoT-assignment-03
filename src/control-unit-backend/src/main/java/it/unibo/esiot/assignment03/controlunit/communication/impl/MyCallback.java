@@ -26,8 +26,7 @@ public final class MyCallback implements MqttCallback {
     /**
      * Constructs a new MyCallback instance.
      * @param client  the MQTT client used for communication.
-     * @param history the history tracker to store temperature values.
-     * @param kernel  the kernel instance to manage the system's state and operations.
+     * @param controller the {@link TemperatureController} used to communicate to system data.
      */
     @SuppressFBWarnings(
         value = {"EI_EXPOSE_REP2", "EI_EXPOSE_REP"},
