@@ -3,8 +3,6 @@ package it.unibo.esiot.assignment03.dashboard.controller.api;
 import java.util.List;
 
 import it.unibo.esiot.assignment03.dashboard.model.impl.Pair;
-import it.unibo.esiot.assignment03.dashboard.model.states.TemperatureState;
-import it.unibo.esiot.assignment03.dashboard.model.states.WindowMode;
 
 /**
  * Controller for the dashboard.
@@ -31,25 +29,25 @@ public interface DashboardController {
      * Returns the current temperature.
      * @return the current temperature.
      */
-    float getCurrentTemperature();
+    String getCurrentTemperature();
 
     /**
      * Returns the maximum temperature.
      * @return the maximum temperature.
      */
-    float getMaxTemperature();
+    String getMaxTemperature();
 
     /**
      * Returns the average temperature.
      * @return the average temperature.
      */
-    float getAvgTemperature();
+    String getAvgTemperature();
 
     /**
      * Returns the minimum temperature.
      * @return the minimum temperature.
      */
-    float getMinTemperature();
+    String getMinTemperature();
 
     /**
      * Returns a list with the history of the temperatures.
@@ -61,17 +59,17 @@ public interface DashboardController {
      * Returns the temperature state.
      * @return the temperature state.
      */
-    TemperatureState getTemperatureState();
+    String getTemperatureState();
 
     /**
      * Returns the window mode.
      * @return the window mode.
      */
-    WindowMode getWindowMode();
+    String getWindowMode();
 
     /**
      * Returns the window opening.
      * @return the window opening.
      */
-    int getWindowOpening();
+    String getWindowOpening();
 }

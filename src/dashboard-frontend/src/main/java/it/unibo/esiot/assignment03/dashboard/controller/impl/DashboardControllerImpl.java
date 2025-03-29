@@ -6,8 +6,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.esiot.assignment03.dashboard.controller.api.DashboardController;
 import it.unibo.esiot.assignment03.dashboard.model.api.SystemData;
 import it.unibo.esiot.assignment03.dashboard.model.impl.Pair;
-import it.unibo.esiot.assignment03.dashboard.model.states.TemperatureState;
-import it.unibo.esiot.assignment03.dashboard.model.states.WindowMode;
 
 /**
  * Implementation of {@link DashboardController}.
@@ -45,23 +43,23 @@ public final class DashboardControllerImpl implements DashboardController {
     }
 
     @Override
-    public float getCurrentTemperature() {
-         return this.systemData.getCurrentTemperature();
+    public String getCurrentTemperature() {
+        return Float.toString(this.systemData.getCurrentTemperature());
     }
 
     @Override
-    public float getMaxTemperature() {
-        return this.systemData.getMaxTemperature();
+    public String getMaxTemperature() {
+        return Float.toString(this.systemData.getMaxTemperature());
     }
 
     @Override
-    public float getAvgTemperature() {
-        return this.systemData.getAvgTemperature();
+    public String getAvgTemperature() {
+        return Float.toString(this.systemData.getAvgTemperature());
     }
 
     @Override
-    public float getMinTemperature() {
-        return this.systemData.getMinTemperature();
+    public String getMinTemperature() {
+        return Float.toString(this.systemData.getMinTemperature());
     }
 
     @Override
@@ -70,17 +68,17 @@ public final class DashboardControllerImpl implements DashboardController {
     }
 
     @Override
-    public TemperatureState getTemperatureState() {
-        return this.systemData.getTemperatureState();
+    public String getTemperatureState() {
+        return this.systemData.getTemperatureState().toString();
     }
 
     @Override
-    public WindowMode getWindowMode() {
-        return this.systemData.getWindowMode();
+    public String getWindowMode() {
+        return this.systemData.getWindowMode().toString();
     }
 
     @Override
-    public int getWindowOpening() {
-        return this.systemData.getWindowOpening();
+    public String getWindowOpening() {
+        return Integer.toString(this.systemData.getWindowOpening());
     }
 }
