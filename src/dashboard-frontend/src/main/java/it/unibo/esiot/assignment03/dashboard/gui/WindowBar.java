@@ -70,7 +70,7 @@ public final class WindowBar extends JPanel {
     public void draw() {
         this.modeLabel.setText("Mode: " + this.controller.getWindowMode());
         this.openingLabel.setText("Opening: " + this.controller.getWindowOpening() + "%");
-        this.openingSlider.setEnabled(!this.controller.getWindowMode().equals(WindowMode.MANUAL.toString()));
+        this.openingSlider.setEnabled(this.controller.getWindowMode().equals(WindowMode.MANUAL.toString()));
         this.sliderFlag = false; // NOPMD suppressed because used in slider change listener.
         this.openingSlider.setValue(Integer.parseInt(this.controller.getWindowOpening()));
         this.sliderFlag = true;
