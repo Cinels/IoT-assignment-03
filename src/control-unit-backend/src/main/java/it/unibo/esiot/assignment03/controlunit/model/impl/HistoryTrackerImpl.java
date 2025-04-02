@@ -53,7 +53,7 @@ public final class HistoryTrackerImpl implements HistoryTracker {
 
     @Override
     public float getAverage() {
-        return this.history.size() == 0 ? 0 : this.sum / this.history.size();
+        return this.history.isEmpty() ? 0 : this.sum / this.history.size();
     }
 
     @Override
