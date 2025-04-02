@@ -1,4 +1,4 @@
-package it.unibo.esiot.assignment03.controlunit.communication.impl;
+package it.unibo.esiot.assignment03.controlunit.communication;
 
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
@@ -12,14 +12,13 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.esiot.assignment03.controlunit.communication.api.WindowCommunication;
 import it.unibo.esiot.assignment03.controlunit.controller.api.WindowController;
 import it.unibo.esiot.assignment03.controlunit.model.states.WindowMode;
 
 /**
- * Implementation of the communication between the Control Unit and the Window controller.
+ * Handles the communication between the Control Unit and the Window controller.
  */
-public final class WindowCommunicationImpl implements WindowCommunication, SerialPortEventListener {
+public final class WindowCommunicationImpl implements SerialPortEventListener {
     private static final String PORT = "COM9";
     private static final String SEND_MESSAGE_START = "Sys: ";
     private static final String RECEIVE_MESSAGE_START = "Win: ";

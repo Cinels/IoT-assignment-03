@@ -1,4 +1,4 @@
-package it.unibo.esiot.assignment03.controlunit.communication.impl;
+package it.unibo.esiot.assignment03.controlunit.communication;
 
 import java.nio.charset.Charset;
 

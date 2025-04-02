@@ -1,6 +1,5 @@
-package it.unibo.esiot.assignment03.controlunit.communication.impl;
+package it.unibo.esiot.assignment03.controlunit.communication;
 
-import it.unibo.esiot.assignment03.controlunit.communication.api.TemperatureCommunication;
 import it.unibo.esiot.assignment03.controlunit.controller.api.TemperatureController;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -8,10 +7,9 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 /**
- * Implementation of the {@link TemperatureCommunication} interface that handles
- * MQTT-based communication for temperature data and sample frequency updates.
+ * Handles MQTT-based communication for temperature data and sample frequency updates.
  */
-public final class TemperatureCommunicationImpl implements TemperatureCommunication {
+public final class TemperatureCommunicationImpl {
     private static final String BROKER_ADDRESS = "tcp://broker.mqtt-dashboard.com:1883";
     private static final String TEMPERATURE_TOPIC = "esiot-2024-assignment03-temperature-topic";
     private static final String CLIENT_ID = "esiot_client";

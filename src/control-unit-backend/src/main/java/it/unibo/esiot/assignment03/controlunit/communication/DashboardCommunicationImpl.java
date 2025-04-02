@@ -1,4 +1,4 @@
-package it.unibo.esiot.assignment03.controlunit.communication.impl;
+package it.unibo.esiot.assignment03.controlunit.communication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,13 +9,12 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.esiot.assignment03.controlunit.communication.api.DashboardCommunication;
 import it.unibo.esiot.assignment03.controlunit.controller.api.DashboardController;
 
 /**
  * Http server that sends system informations.
  */
-public final class DashboardCommunicationImpl extends Thread implements DashboardCommunication {
+public final class DashboardCommunicationImpl extends Thread {
     private static final int BUFFER_SIZE = 1024;
     private static final int PORT = 8080;
     private static final String CRLF = "\r\n";
