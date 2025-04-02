@@ -15,9 +15,9 @@ public final class Dashboard extends JFrame {
     private static final int HEIGHT = 800;
     private static final int SLEEP_TIME = 100;
 
-    final TemperatureBar temperatureBar;
-    final HistoryBar historyBar;
-    final WindowBar windowBar;
+    private final TemperatureBar temperatureBar;
+    private final HistoryBar historyBar;
+    private final WindowBar windowBar;
 
     /**
      * Creates a new dashboard.
@@ -42,8 +42,11 @@ public final class Dashboard extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Starts the updating of data.
+     */
     public void start() {
-        new Thread(() -> this.run()).start();
+        new Thread(this::run).start();
     }
 
     private void run() {
