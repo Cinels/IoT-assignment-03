@@ -115,7 +115,7 @@ public final class DashboardCommunicationImpl extends Thread implements Dashboar
             + this.controller.getMin() + SEPARATOR
             + this.controller.getMax() + NEW_LINE);
         for (final var pair : this.controller.getHistory()) {
-            builder.append("{" + pair.getX() + PAIR_SEPARATOR + pair.getY() + "}"); // NOPMD needed non-literals
+            builder.append("{" + pair.getX() + PAIR_SEPARATOR + pair.getY() + "}" + SEPARATOR); // NOPMD needed non-literals
         }
         builder.append(NEW_LINE + this.controller.getWindowMode().toString() + SEPARATOR // NOPMD needed non-literals
             + this.controller.getCurrentWindowOpening());
