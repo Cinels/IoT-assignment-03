@@ -13,6 +13,11 @@ public final class Dashboard extends JFrame {
     private static final long serialVersionUID = 1L;
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 800;
+    private static final int SLEEP_TIME = 100;
+
+    final TemperatureBar temperatureBar;
+    final HistoryBar historyBar;
+    final WindowBar windowBar;
 
     /**
      * Creates a new dashboard.
@@ -25,12 +30,31 @@ public final class Dashboard extends JFrame {
     )
     public Dashboard(final DashboardController controller) {
         this.setLayout(new BorderLayout());
-        this.add(new TemperatureBar(controller), BorderLayout.WEST);
-        this.add(new HistoryBar(controller), BorderLayout.CENTER);
-        this.add(new WindowBar(controller), BorderLayout.SOUTH);
+        this.temperatureBar = new TemperatureBar(controller);
+        this.historyBar = new HistoryBar(controller);
+        this.windowBar = new WindowBar(controller);
+        this.add(this.temperatureBar, BorderLayout.WEST);
+        this.add(this.historyBar, BorderLayout.CENTER);
+        this.add(this.windowBar, BorderLayout.SOUTH);
         this.setSize(WIDTH, HEIGHT);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+
+    public void start() {
+        new Thread(() -> this.run()).start();
+    }
+
+    private void run() {
+        while (true) {
+            this.historyBar.updateDataset();
+
+            try {
+                Thread.sleep(SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.addSuppressed(e);
+            }
+        }
     }
 }
