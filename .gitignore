@@ -1,6 +1,7 @@
 .pio
 .vscode/
 .venv
+.lck
 
 .gradle
 bin/
