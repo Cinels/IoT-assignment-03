@@ -51,7 +51,9 @@ public final class Dashboard extends JFrame {
 
     private void run() {
         while (true) {
+            this.temperatureBar.draw();
             this.historyBar.updateDataset();
+            this.windowBar.draw();
 
             try {
                 Thread.sleep(SLEEP_TIME);
