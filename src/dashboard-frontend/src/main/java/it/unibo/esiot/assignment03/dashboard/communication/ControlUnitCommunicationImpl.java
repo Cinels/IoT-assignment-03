@@ -16,9 +16,9 @@ import it.unibo.esiot.assignment03.dashboard.model.states.TemperatureState;
 import it.unibo.esiot.assignment03.dashboard.model.states.WindowMode;
 
 /**
- * Implementation of {@link ControlUnitCommunication}.
+ * Handles communications between dashboard system and control unit.
  */
-public final class ControlUnitCommunicationImpl extends Thread implements ControlUnitCommunication {
+public final class ControlUnitCommunicationImpl extends Thread {
     private static final int SLEEP_TIME = 500;
     private static final String MY_URI = "http://localhost:8080";
     private static final String SEND_MESSAGE_START = "Das: ";
