@@ -18,7 +18,7 @@ import it.unibo.esiot.assignment03.controlunit.model.states.WindowMode;
 /**
  * Handles the communication between the Control Unit and the Window controller.
  */
-public final class WindowCommunicationImpl implements SerialPortEventListener {
+public final class WindowCommunicationImpl extends Thread implements SerialPortEventListener {
     private static final String PORT = "COM9";
     private static final String SEND_MESSAGE_START = "Sys: ";
     private static final String RECEIVE_MESSAGE_START = "Win: ";
@@ -26,6 +26,7 @@ public final class WindowCommunicationImpl implements SerialPortEventListener {
     private static final String SEPARATOR = ", ";
     private static final char END_OF_LINE = '\n';
     private static final int OFFSET_FROM_SEPARATOR = 2;
+    private static final long SLEEP_TIME = 300;
 
     private final WindowController controller;
     private final SerialPort serialPort;
@@ -57,10 +58,23 @@ public final class WindowCommunicationImpl implements SerialPortEventListener {
     public void serialEvent(final SerialPortEvent event) {
         if (event.isRXCHAR()) {
             try {
-                this.receivedDataBuffer.write(this.serialPort.readBytes(event.getEventValue()));
-                this.messageReceived();
-                this.serialPort.writeString(this.messageToSend());
+                synchronized (this.serialPort) {
+                    this.receivedDataBuffer.write(this.serialPort.readBytes(event.getEventValue()));
+                    this.serialPort.writeString(this.messageToSend());                    
+                }
             } catch (SerialPortException | IOException e) {
+                e.addSuppressed(e);
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            messageReceived();
+            try {
+                Thread.sleep(SLEEP_TIME);
+            } catch (InterruptedException e) {
                 e.addSuppressed(e);
             }
         }
