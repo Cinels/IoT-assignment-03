@@ -60,7 +60,7 @@ public final class WindowCommunicationImpl extends Thread implements SerialPortE
             try {
                 synchronized (this.serialPort) {
                     this.receivedDataBuffer.write(this.serialPort.readBytes(event.getEventValue()));
-                    this.serialPort.writeString(this.messageToSend());                    
+                    this.serialPort.writeString(this.messageToSend());
                 }
             } catch (SerialPortException | IOException e) {
                 e.addSuppressed(e);
@@ -73,7 +73,7 @@ public final class WindowCommunicationImpl extends Thread implements SerialPortE
         while (true) {
             messageReceived();
             try {
-                Thread.sleep(SLEEP_TIME);
+                sleep(SLEEP_TIME);
             } catch (InterruptedException e) {
                 e.addSuppressed(e);
             }
