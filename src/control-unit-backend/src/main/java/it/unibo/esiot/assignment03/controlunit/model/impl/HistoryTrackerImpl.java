@@ -30,16 +30,16 @@ public final class HistoryTrackerImpl implements HistoryTracker {
 
     @Override
     public void addValue(final float value) {
-        this.history.add(new Pair<>(System.currentTimeMillis(), value));
-        this.sum += value;
-        if (this.history.size() > HISTORY_SIZE) {
-            this.sum -= this.history.remove(0).getY();
-        }
         if (this.history.isEmpty() || value < this.min) {
             this.min = value;
         }
         if (this.history.isEmpty() || value > this.max) {
             this.max = value;
+        }
+        this.history.add(new Pair<>(System.currentTimeMillis(), value));
+        this.sum += value;
+        if (this.history.size() > HISTORY_SIZE) {
+            this.sum -= this.history.remove(0).getY();
         }
     }
 
