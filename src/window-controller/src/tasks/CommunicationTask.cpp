@@ -31,10 +31,11 @@ void CommunicationTask::receiveMessage() {
             float temperature = message.substring(message.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR, message.lastIndexOf(SEPARATOR)).toFloat();
             int opening = message.substring(message.lastIndexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR).toInt();
             if (changeMode.equals(SWITCH_MODE_STRING)) {
-                this->systemInformations->switchMode(true);
+                if (this->systemInformations->getMode() == AUTOMATIC_MODE) this->systemInformations->switchMode(DASHBOARD_MODE);
+                else this->systemInformations->switchMode(AUTOMATIC_MODE);
             }
             if (this->systemInformations->getMode() == MANUAL_MODE && this->prevOpening != opening) {
-                this->systemInformations->switchMode(true);
+                this->systemInformations->switchMode(DASHBOARD_MODE);
             }
             this->systemInformations->setTemperature(temperature);
             this->systemInformations->setWindowOpeningGoal(opening);

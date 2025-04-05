@@ -24,7 +24,7 @@ public:
 
     /// @brief Triggers the mode switch.
     /// @param isFromDashboard tells from where the switch is triggered.
-    void switchMode(bool isFromDashboard);
+    void switchMode(WindowMode newMode);
 
     /// @brief Returns the temperature value.
     /// @return the temperature value.

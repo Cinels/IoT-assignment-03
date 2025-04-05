@@ -14,10 +14,8 @@ void SystemInformations::setWindowOpeningGoal(int windowOpening) {
     this->windowOpening = windowOpening;
 }
 
-void SystemInformations::switchMode(bool isFromDashboard) {
-    if (isFromDashboard && !(this->mode == DASHBOARD_MODE)) this->mode = DASHBOARD_MODE;
-    else if (!(this->mode == MANUAL_MODE)) this->mode = MANUAL_MODE;
-    else this->mode = AUTOMATIC_MODE;
+void SystemInformations::switchMode(WindowMode newMode) {
+    this->mode = newMode;
 }
 
 float SystemInformations::getTemperature() {

@@ -12,7 +12,7 @@ WindowTask::WindowTask(UserPanel *userPanel, Window *window, SystemInformations 
 
 void WindowTask::tick() {
     if (this->systemInformations->getMode() == DASHBOARD_MODE && this->prevManualOpening != this->userPanel->getWindowManualOpening()) {
-        this->systemInformations->switchMode(false);
+        this->systemInformations->switchMode(MANUAL_MODE);
         this->prevManualOpening = this->userPanel->getWindowManualOpening();
     }
     this->window->setOpening(this->systemInformations->getMode() == MANUAL_MODE ?

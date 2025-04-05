@@ -16,5 +16,6 @@ void Button::attachInterrupt(SystemInformations* systemInformations) {
 }
 
 void Button::buttonHandler() {
-    sysInfo->switchMode(false);
+    if (sysInfo->getMode() == MANUAL_MODE) sysInfo->switchMode(AUTOMATIC_MODE);
+    else sysInfo->switchMode(MANUAL_MODE);
 }
