@@ -19,13 +19,16 @@ public final class WindowBar extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final Font FONT = new Font(Font.DIALOG, Font.LAYOUT_LEFT_TO_RIGHT, 18);
     private static final Font BOLD_FONT = new Font(Font.DIALOG, Font.BOLD, 18);
+    private static final int MIN = 0;
+    private static final int MAX = 100;
+    private static final int START = 0;
 
     private final transient DashboardController controller;
     private final JLabel modeLabel;
     private final JButton switchModeButton;
     private final JLabel openingLabel;
     private final JSlider openingSlider;
-    private boolean sliderFlag;
+    private final JButton openingButton;
 
     /**
      * Creates a new window management panel.
@@ -42,7 +45,8 @@ public final class WindowBar extends JPanel {
         this.modeLabel = new JLabel();
         this.switchModeButton = new JButton("Switch Mode");
         this.openingLabel = new JLabel();
-        this.openingSlider = new JSlider();
+        this.openingSlider = new JSlider(MIN, MAX, START);
+        this.openingButton = new JButton();
         this.setup();
         this.draw();
     }
@@ -52,16 +56,15 @@ public final class WindowBar extends JPanel {
         this.switchModeButton.setFont(FONT);
         this.openingLabel.setFont(BOLD_FONT);
         this.openingSlider.setFont(FONT);
-        this.openingSlider.addChangeListener(e -> {
-            if (sliderFlag) {
-                this.controller.setOpeningFromDashboard(this.openingSlider.getValue());
-            }
-        });
+        this.switchModeButton.addActionListener(e -> this.controller.doSwitchMode());
+        this.openingButton.setFont(FONT);
+        this.openingButton.addActionListener(e -> this.controller.setOpeningFromDashboard(this.openingSlider.getValue()));
 
         this.add(this.modeLabel);
         this.add(this.switchModeButton);
         this.add(this.openingLabel);
         this.add(this.openingSlider);
+        this.add(this.openingButton);
     }
 
     /**
@@ -71,9 +74,8 @@ public final class WindowBar extends JPanel {
         this.modeLabel.setText("Mode: " + this.controller.getWindowMode());
         this.openingLabel.setText("Opening: " + this.controller.getWindowOpening() + "%");
         this.openingSlider.setEnabled(this.controller.getWindowMode().equals(WindowMode.MANUAL.toString()));
-        this.sliderFlag = false; // NOPMD suppressed because used in slider change listener.
-        this.openingSlider.setValue(Integer.parseInt(this.controller.getWindowOpening()));
-        this.sliderFlag = true;
+        this.openingButton.setText("Confirm Opening to: " + this.openingSlider.getValue() + "%");
+        this.openingButton.setEnabled(this.controller.getWindowMode().equals(WindowMode.MANUAL.toString()));
 
         this.repaint();
         this.validate();
