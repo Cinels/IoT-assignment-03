@@ -50,6 +50,16 @@ public final class CommunicationControllerImpl implements CommunicationControlle
     }
 
     @Override
+    public boolean isOpeningSetFromDashboard() {
+        return this.systemData.isOpeningSetFromDashboard();
+    }
+
+    @Override
+    public void openingSetFromDashboard() {
+        this.systemData.openingSetFromDashboard();
+    }
+
+    @Override
     public int getOpeningFromDashboard() {
         return this.systemData.getOpeningFromDashboard();
     }

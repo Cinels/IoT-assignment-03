@@ -44,6 +44,17 @@ public interface SystemData {
     void alarmManaged();
 
     /**
+     * Returns if the opening of the window is to set from dashboard.
+     * @return true if the opening is to set from the dashboard, false otherwise.
+     */
+    boolean isOpeningSetFromDashboard();
+
+    /**
+     * Tells that the opening from dashboard has been set.
+     */
+    void openingSetFromDashboard();
+
+    /**
      * Returns the opening value for the window set from the dasboard.
      * @return the window opening set from the dashboard.
      */

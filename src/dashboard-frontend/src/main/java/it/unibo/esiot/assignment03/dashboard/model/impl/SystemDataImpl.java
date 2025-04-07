@@ -25,6 +25,7 @@ public final class SystemDataImpl implements SystemData {
     private int windowOpeningFromDashboard;
     private boolean switchMode;
     private boolean manageAlarm;
+    private boolean dashboardOpening;
 
     /**
      * Constructor of StstemData.
@@ -41,6 +42,7 @@ public final class SystemDataImpl implements SystemData {
         this.windowOpeningFromDashboard = 0;
         this.switchMode = false;
         this.manageAlarm = false;
+        this.dashboardOpening = false;
     }
 
     @Override
@@ -74,12 +76,23 @@ public final class SystemDataImpl implements SystemData {
     }
 
     @Override
+    public boolean isOpeningSetFromDashboard() {
+        return this.dashboardOpening;
+    }
+
+    @Override
+    public void openingSetFromDashboard() {
+        this.dashboardOpening = false;
+    }
+
+    @Override
     public int getOpeningFromDashboard() {
         return this.windowOpeningFromDashboard;
     }
 
     @Override
     public void setOpeningFromDashboard(final int opening) {
+        this.dashboardOpening = true;
         this.windowOpeningFromDashboard = opening;
     }
 
