@@ -12,7 +12,7 @@ public enum TemperatureState {
     HOT("Hot"),
 
     /** The temperature is too hot. */
-    TOO_HOT("Too Hot"),
+    TOO_HOT("Too_Hot"),
 
     /** The temperature was too hot for too long. */
     ALARM("Alarm");
