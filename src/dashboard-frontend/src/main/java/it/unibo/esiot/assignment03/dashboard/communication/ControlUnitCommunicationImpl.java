@@ -64,12 +64,18 @@ public final class ControlUnitCommunicationImpl extends Thread {
         requestString.append(SEND_MESSAGE_START);
         if (this.controller.isAlarmToManage()) {
             requestString.append(MANAGE_ALARM);
+            this.controller.alarmManaged();
         }
         requestString.append(SEPARATOR);
         if (this.controller.isModeToSwitch()) {
             requestString.append(SWITCH_MODE);
+            this.controller.modeSwitched();
         }
-        requestString.append(SEPARATOR + this.controller.getOpeningFromDashboard()); // NOPMD needed non-literals
+        requestString.append(SEPARATOR);
+        if (this.controller.isOpeningSetFromDashboard()) {
+            requestString.append(this.controller.getOpeningFromDashboard()); // NOPMD needed non-literals
+            this.controller.openingSetFromDashboard();
+        }
 
         final var uri = URI.create(MY_URI);
         final var client = HttpClient.newHttpClient();
@@ -106,10 +112,6 @@ public final class ControlUnitCommunicationImpl extends Thread {
                     list.add(new Pair<>(Long.parseLong(pair[0]), Float.parseFloat(pair[1])));
                 }
                 this.controller.setTemperatureHistory(list);
-
-                // for (final Pair<Long, Float> pair : list) {
-                //     System.out.println(pair.getX() + " " + pair.getY());
-                // }
             }
 
             final var opening = lines[2].split(SEPARATOR);
