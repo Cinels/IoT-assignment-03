@@ -38,11 +38,16 @@ public final class HistoryBar extends JPanel {
     )
     public HistoryBar(final DashboardController controller) {
         this.controller = controller;
-        this.initTime = System.currentTimeMillis();
         final var chart = new ChartPanel(this.createChart(this.createDataset()));
         chart.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.add(chart);
         this.updateDataset();
+        final var history = this.controller.getTemperatureHistory();
+        if (!history.isEmpty()) {
+            this.initTime = history.get(0).getX();
+        } else {
+            this.initTime = System.currentTimeMillis();
+        }
     }
 
     private JFreeChart createChart(final XYSeriesCollection dataset) {
