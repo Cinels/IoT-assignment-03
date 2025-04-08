@@ -28,18 +28,21 @@ void CommunicationTask::receiveMessage() {
         String message = Serial.readString();
         if (message.startsWith(RECEIVE_MESSAGE_START)) {
             String changeMode = message.substring(START_DATA_INDEX, message.indexOf(SEPARATOR));
-            float temperature = message.substring(message.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR, message.lastIndexOf(SEPARATOR)).toFloat();
+            float temperature = message.substring(message.indexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR,
+                message.lastIndexOf(SEPARATOR)).toFloat();
             int opening = message.substring(message.lastIndexOf(SEPARATOR) + OFFSET_FROM_SEPARATOR).toInt();
             if (changeMode.equals(SWITCH_MODE_STRING)) {
                 if (this->systemInformations->getMode() == AUTOMATIC_MODE) this->systemInformations->switchMode(DASHBOARD_MODE);
                 else this->systemInformations->switchMode(AUTOMATIC_MODE);
             }
-            if (this->systemInformations->getMode() == MANUAL_MODE && this->prevOpening != opening) {
+            if (this->systemInformations->getMode() == MANUAL_MODE && opening != -1) {
                 this->systemInformations->switchMode(DASHBOARD_MODE);
+                this->prevOpening = opening;
             }
             this->systemInformations->setTemperature(temperature);
-            this->systemInformations->setWindowOpeningGoal(opening);
-            this->prevOpening = opening;
+            if (opening != -1) {
+                this->systemInformations->setWindowOpeningGoal(opening);
+            }
         }
     }
 }
@@ -51,5 +54,12 @@ void CommunicationTask::sendMessage() {
         message.concat(SEPARATOR);
         message.concat(this->systemInformations->getMode() == AUTOMATIC_MODE ? AUTOMATIC_STRING : MANUAL_STRING);
         Serial.println(message);
+
+        switch (this->systemInformations->getMode()) {
+        case AUTOMATIC_MODE: Serial.println("AUTO"); break;
+        case MANUAL_MODE: Serial.println("MANU"); break;
+        case DASHBOARD_MODE: Serial.println("DASH"); break;
+        default: break;
+        }/* */
     }
 }
