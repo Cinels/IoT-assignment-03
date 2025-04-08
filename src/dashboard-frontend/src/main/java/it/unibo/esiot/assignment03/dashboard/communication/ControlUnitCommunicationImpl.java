@@ -87,7 +87,7 @@ public final class ControlUnitCommunicationImpl extends Thread {
             final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
             this.parseResponse(response.body());
         } catch (IOException | InterruptedException e) {
-            e.addSuppressed(e);
+            e.printStackTrace();
         }
     }
 
