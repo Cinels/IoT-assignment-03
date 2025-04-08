@@ -23,6 +23,7 @@ public final class KernelImpl implements Kernel {
     private int manualOpening;
     private long ts;
     private boolean switchMode;
+    private boolean dashboardUsed;
 
     /**
      * Creates a kernel object.
@@ -35,6 +36,7 @@ public final class KernelImpl implements Kernel {
         this.manualOpening = 0;
         this.ts = System.currentTimeMillis();
         this.switchMode = false;
+        this.dashboardUsed = true;
     }
 
     @Override
@@ -90,6 +92,7 @@ public final class KernelImpl implements Kernel {
     @Override
     public void setManualWindowOpening(final int opening) {
         this.manualOpening = opening;
+        this.dashboardUsed = false;
     }
 
     @Override
@@ -107,6 +110,7 @@ public final class KernelImpl implements Kernel {
                 case ALARM -> MAX_PERCENTAGE;
             };
         } else {
+            this.dashboardUsed = true;
             return this.manualOpening;
         }
     }
@@ -133,6 +137,11 @@ public final class KernelImpl implements Kernel {
     @Override
     public boolean isModeToSwitch() {
         return this.switchMode;
+    }
+
+    @Override
+    public boolean isOpeningFromDashboardUsed() {
+        return this.dashboardUsed;
     }
 
     private int calculateWindowOpening() {

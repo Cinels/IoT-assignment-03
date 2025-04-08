@@ -90,4 +90,10 @@ public interface Kernel {
      * @return if the window mode has to switch.
      */
     boolean isModeToSwitch();
+
+    /**
+     * Returns if the opening value sent from the dashboard has been used.
+     * @return true if the opening has been used, false otherwise.
+     */
+    boolean isOpeningFromDashboardUsed();
 }

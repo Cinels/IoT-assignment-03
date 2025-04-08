@@ -97,9 +97,7 @@ public final class DashboardCommunicationImpl extends Thread {
                 if (SWITCH_MODE.equals(mode)) {
                     this.controller.doSwitchMode();
                 }
-                if (!opening.isEmpty()) {
-                    this.controller.setManualWindowOpening(Integer.parseInt(opening));
-                }
+                this.controller.setManualWindowOpening(opening.isEmpty() ? -1 : Integer.parseInt(opening));
             }
         }
     }

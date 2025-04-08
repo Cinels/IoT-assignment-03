@@ -60,7 +60,9 @@ public final class DashboardControllerImpl implements DashboardController {
 
     @Override
     public void setManualWindowOpening(final int opening) {
-        this.kernel.setManualWindowOpening(opening);
+        if (opening != -1 || this.kernel.isOpeningFromDashboardUsed()) {
+            this.kernel.setManualWindowOpening(opening);
+        }
     }
 
     @Override
