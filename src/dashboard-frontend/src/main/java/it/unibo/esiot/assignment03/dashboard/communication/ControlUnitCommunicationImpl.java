@@ -87,7 +87,8 @@ public final class ControlUnitCommunicationImpl extends Thread {
             final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
             this.parseResponse(response.body());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            e.printStackTrace();    // NOPMD no logger needed. 
+                                    // This exception occours when the dashboard is started before the control unit.
         }
     }
 
