@@ -1,0 +1,23 @@
+@startuml
+hide empty description
+
+state WORKING
+state NOT_WORKING{
+    state CONNECTION_ERROR
+    state MQTT_ERROR
+}
+
+WORKING : do/red led off
+WORKING : do/green led on
+
+NOT_WORKING : do/red led on
+NOT_WORKING : do/green led off
+
+[*] -right-> CONNECTION_ERROR
+CONNECTION_ERROR -right-> MQTT_ERROR : Connects to a network
+MQTT_ERROR -left-> CONNECTION_ERROR : Network connection lost
+MQTT_ERROR -down-> WORKING : Connects to mqtt broker
+WORKING -up-> CONNECTION_ERROR : Network connection lost
+WORKING -up-> MQTT_ERROR : Connection to mqtt broker lost
+WORKING --> WORKING : after(1/F seconds)/send sampled temperature
+@enduml
