@@ -1,0 +1,26 @@
+@startuml
+hide empty description
+
+state NORMAL
+state HOT
+state TOO_HOT
+state ALARM
+
+NORMAL : entry/set temperature \n sample frequency to F1
+NORMAL : entry/set window opening \n to close
+NORMAL : exit/set temperature \n sample frequency to F2
+
+HOT : entry/set the window opening \n to a proportional percentage \n compared to temperature
+
+TOO_HOT : entry/set the window opening \n to fully open
+
+[*] --> NORMAL
+NORMAL --right--> HOT : T1 < temperature < T2
+NORMAL  --down--> TOO_HOT : temperature > T2
+HOT --left--> NORMAL : temperature < T1
+HOT --left--> TOO_HOT : temperature > T2
+TOO_HOT --up--> NORMAL : temperature < T1
+TOO_HOT --right--> HOT : temperature T1 < temperature < T2
+TOO_HOT --left--> ALARM : temperature > T2 for DT time
+ALARM --right--> NORMAL : manage alarm
+@enduml
