@@ -1,0 +1,24 @@
+@startuml
+hide empty description
+
+state AUTOMATIC
+state MANUAL {
+  state MANUAL
+  state DASHBOARD
+}
+
+AUTOMATIC : do/set window opening from \n control unit
+AUTOMATIC : do/show opening percentage
+AUTOMATIC : do/show mode
+
+MANUAL : do/show opening percentage
+MANUAL : do/show mode
+MANUAL : do/show current temperature
+
+MANUAL.MANUAL : do/set window opening \n from the user panel
+MANUAL.DASHBOARD : do/set window opening \n from the dashboard
+
+[*] --> AUTOMATIC
+AUTOMATIC -right-> MANUAL : switch button pressed (physical or from dashboard)
+MANUAL -left-> AUTOMATIC : switch button pressed (physical or from dashboard)
+@enduml
