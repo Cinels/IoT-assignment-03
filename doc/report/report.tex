@@ -106,106 +106,106 @@
         \end{itemize}
 
 
-        \chapter{Design}
+\chapter{Design}
 
-        \section{Architecture}
-    
-            The system is composed by four modules: the control unit, the temperature monitoring, the window controller and the dashboard. 
-            The control unit is the center of the system, able to exchange information between itself and any other module.\\\\
-            %
-            The temperature monitoring is a task-based architecture with only one task which is a synchronous finite state machine. 
-            Despite having only one task produces overhead, it offers great flexibility and modularity.\\\\
-            %
-            The window controller is a task-based architecture. Tasks are concurrent and are: communication task via serial line, and window 
-            controlling task.\\
-            Each task interacts with the model that offers encapsulation to physical devices and subsystem data.\\\\
-            %
-            The dashboard is based on an MVC architectural pattern. The view is formed by two modules: the active GUI and the communication 
-            module. \\
-            The first one is in charge of displaying updated data in the GUI, while the second submodule periodically sends an HTTP request 
-            to the control unit to obtain updated data and eventually send commands.\\\\
-            %
-            The control unit is an based on an MVC architectural pattern. The view is formed by the communication modules that communicates 
-            with the other three subsystem.\\
-            The control unit can be seen as the central server of the system, where each one of the communication tasks remains in a 
-            listening state ready to process and respond to an incoming message.
-    
-        \section{Detailed Design}
-    
-            \paragraph{Temperature Subsystem\\}
-                \ \\
-                The task in the Temperature Monitoring subsystem deals to send periodically via the MQTT protocol the current temperature of 
-                the environment. The period is send via MQTT from the control unit.\\
-                The task is described by a \texttt{synchronous finite state machine}. 
-    
-                \begin{figure}[H]
-                    \centering{}
-                    \includegraphics[width=\textwidth]{uml/img/TemperatureCommunicationUML.png}
-                    \caption{Temperature Monitoring Connection State}
-                    \label{img:connection_state}
-                \end{figure}
-    
-                \begin{itemize}
-                    \item NOT\_WORKING: in this state the sensor cannot communicate with the MQTT broker and by consequence with the Control 
-                    Unit. To highlight the connection problem a red led is turned on.
-                    \item CONNECTION\_ERROR: it's the initial state. It means that the sensor coulden't connect to any network. Each time the 
-                    task is executed it will try to connect to the designated network.
-                    \item MQTT\_ERROR: in this state the sensor is connected to a network but is not connected to the MQTT broker. Each time 
-                    the task is executed it will try to connect to the broker.
-                    \item WORKING: the sensor can communicate with the Control Unit. To signal that the connection is working a green led is 
-                    turned on. Each time the task is executed the sensor samples the current temperature and send it to the Control Unit. 
-                    The Control Unit in response, based on the temperature received, replies with the frequency of temperature sampling.
-                \end{itemize}
-    
-            \newpage
-            \paragraph{Window Subsystem\\}
-                \ \\
-                The Window Controller has two tasks: the communication tasks that sends periodically the subsystem data to the Control Unit 
-                and reads any reply from it, and the window task which deals with the window mode, set the opening of the window based on 
-                the temperature if in \textit{AUTOMATIC\_MODE} or the percentage set by the user or operator if the window is in 
-                \textit{MANUAL\_MODE}.\\
-                The window task is described by a \texttt{synchronous finite state machine}.
-    
-                \begin{figure}[H]
-                    \centering{}
-                    \includegraphics[width=\textwidth]{uml/img/WindowModeUML.png}
-                    \caption{Window Mode}
-                    \label{img:window_mode}
-                \end{figure}
-    
-                \begin{itemize}
-                    \item AUTOMATIC: it's the initial mode of the window. In this mode the opening of the window is established by the 
-                    Control Unit depending on the current temperature state and temperature. 
-                    \item MANUAL: in this mode the window opening is established by an user or an operator, depending on where the command 
-                    came from.
-                    \item USER: in this mode is an user who sets the opening of the window by the provided user panel.
-                    \item DASHBOARD: in this mode is an operator who sets the opening of the window by the dashboard.
-                \end{itemize}
-    
-            \newpage
-            \paragraph{Control Unit Subsystem\\}
-                \ \\
-                The Control Unit is designed to store the data of the system, compute the frequency of temperature sampling and the opening 
-                of the window, as well as manage communication between itself and the rest of the system.\\
-                The frequency of sampling and the opening of the window are calculated by the temperature state, determined by the current 
-                temperature.\\
-                The temperature task is described by a \texttt{synchronous finite state machine}. 
-    
-                \begin{figure}[H]
-                    \centering{}
-                    \includegraphics[width=\textwidth]{uml/img/TemperatureStateUML.png}
-                    \caption{Temperature State}
-                    \label{img:temperature_state}
-                \end{figure}
-    
-                \begin{itemize}
-                    \item NORMAL: it's the initial state. In this state the temperature is normal, so the window is closed.
-                    \item HOT: in this state the temperature begins to be hot, so depending on the current temperature the window will be 
-                    opened for a certain percentage.
-                    \item TOO\_HOT: in this state the environmental temperature is too hot. The window must be fully open.
-                    \item ALARM: if the temperature state remains in \textit{TOO\_HOT} for $DT$ time then the system goes in \textit{ALARM} 
-                    state. In this state the window is fully open until an operator manually manages the alarm from the dashboard.
-                \end{itemize}
+    \section{Architecture}
+
+        The system is composed by four modules: the control unit, the temperature monitoring, the window controller and the dashboard. 
+        The control unit is the center of the system, able to exchange information between itself and any other module.\\\\
+        %
+        The temperature monitoring is a task-based architecture with only one task which is a synchronous finite state machine. 
+        Despite having only one task produces overhead, it offers great flexibility and modularity.\\\\
+        %
+        The window controller is a task-based architecture. Tasks are concurrent and are: communication task via serial line, and window 
+        controlling task.\\
+        Each task interacts with the model that offers encapsulation to physical devices and subsystem data.\\\\
+        %
+        The dashboard is based on an MVC architectural pattern. The view is formed by two modules: the active GUI and the communication 
+        module. \\
+        The first one is in charge of displaying updated data in the GUI, while the second submodule periodically sends an HTTP request 
+        to the control unit to obtain updated data and eventually send commands.\\\\
+        %
+        The control unit is an based on an MVC architectural pattern. The view is formed by the communication modules that communicates 
+        with the other three subsystem.\\
+        The control unit can be seen as the central server of the system, where each one of the communication tasks remains in a 
+        listening state ready to process and respond to an incoming message.
+
+    \section{Detailed Design}
+
+        \paragraph{Temperature Subsystem\\}
+            \ \\
+            The task in the Temperature Monitoring subsystem deals to send periodically via the MQTT protocol the current temperature of 
+            the environment. The period is send via MQTT from the control unit.\\
+            The task is described by a \texttt{synchronous finite state machine}. 
+
+            \begin{figure}[H]
+                \centering{}
+                \includegraphics[width=\textwidth]{uml/img/TemperatureCommunicationUML.png}
+                \caption{Temperature Monitoring Connection State}
+                \label{img:connection_state}
+            \end{figure}
+
+            \begin{itemize}
+                \item NOT\_WORKING: in this state the sensor cannot communicate with the MQTT broker and by consequence with the Control 
+                Unit. To highlight the connection problem a red led is turned on.
+                \item CONNECTION\_ERROR: it's the initial state. It means that the sensor coulden't connect to any network. Each time the 
+                task is executed it will try to connect to the designated network.
+                \item MQTT\_ERROR: in this state the sensor is connected to a network but is not connected to the MQTT broker. Each time 
+                the task is executed it will try to connect to the broker.
+                \item WORKING: the sensor can communicate with the Control Unit. To signal that the connection is working a green led is 
+                turned on. Each time the task is executed the sensor samples the current temperature and send it to the Control Unit. 
+                The Control Unit in response, based on the temperature received, replies with the frequency of temperature sampling.
+            \end{itemize}
+
+        \newpage
+        \paragraph{Window Subsystem\\}
+            \ \\
+            The Window Controller has two tasks: the communication tasks that sends periodically the subsystem data to the Control Unit 
+            and reads any reply from it, and the window task which deals with the window mode, set the opening of the window based on 
+            the temperature if in \textit{AUTOMATIC\_MODE} or the percentage set by the user or operator if the window is in 
+            \textit{MANUAL\_MODE}.\\
+            The window task is described by a \texttt{synchronous finite state machine}.
+
+            \begin{figure}[H]
+                \centering{}
+                \includegraphics[width=\textwidth]{uml/img/WindowModeUML.png}
+                \caption{Window Mode}
+                \label{img:window_mode}
+            \end{figure}
+
+            \begin{itemize}
+                \item AUTOMATIC: it's the initial mode of the window. In this mode the opening of the window is established by the 
+                Control Unit depending on the current temperature state and temperature. 
+                \item MANUAL: in this mode the window opening is established by an user or an operator, depending on where the command 
+                came from.
+                \item USER: in this mode is an user who sets the opening of the window by the provided user panel.
+                \item DASHBOARD: in this mode is an operator who sets the opening of the window by the dashboard.
+            \end{itemize}
+
+        \newpage
+        \paragraph{Control Unit Subsystem\\}
+            \ \\
+            The Control Unit is designed to store the data of the system, compute the frequency of temperature sampling and the opening 
+            of the window, as well as manage communication between itself and the rest of the system.\\
+            The frequency of sampling and the opening of the window are calculated by the temperature state, determined by the current 
+            temperature.\\
+            The temperature task is described by a \texttt{synchronous finite state machine}. 
+
+            \begin{figure}[H]
+                \centering{}
+                \includegraphics[width=\textwidth]{uml/img/TemperatureStateUML.png}
+                \caption{Temperature State}
+                \label{img:temperature_state}
+            \end{figure}
+
+            \begin{itemize}
+                \item NORMAL: it's the initial state. In this state the temperature is normal, so the window is closed.
+                \item HOT: in this state the temperature begins to be hot, so depending on the current temperature the window will be 
+                opened for a certain percentage.
+                \item TOO\_HOT: in this state the environmental temperature is too hot. The window must be fully open.
+                \item ALARM: if the temperature state remains in \textit{TOO\_HOT} for $DT$ time then the system goes in \textit{ALARM} 
+                state. In this state the window is fully open until an operator manually manages the alarm from the dashboard.
+            \end{itemize}
 
     
 \end{document}
