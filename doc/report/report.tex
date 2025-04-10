@@ -207,5 +207,42 @@
                 state. In this state the window is fully open until an operator manually manages the alarm from the dashboard.
             \end{itemize}
 
+\chapter{Develop}
+
+    The system is developed in two different languages:\\
+    The Temperature Monitoring and Window Controller subsystems are developed in \texttt{C++} by using \texttt{PlatformIO} IDE with 
+    \texttt{arduino} framework.\\
+    The Control Unit and the Dashboard subsystems are developed in \texttt{Java} by using \texttt{Gradle} as a build tool.\\\\
+    %
+    The Temperature Monitoring subsystem uses the ``\href{https://github.com/knolleary/pubsubclient}{PubSubClient}'' external library 
+    to use MQTT protocol.\\\\
+    %
+    The Window Controller subsystem uses three external libraries: ``\href{https://github.com/GreyGnome/EnableInterrupt}{EnableInterrupt}'' 
+    to enable interrupt handling, 
+    ``\href{https://github.com/johnrickman/LiquidCrystal_I2C}{LiquidCrystal\_I2C}'' to manage the display and 
+    ``\href{https://docs.arduino.cc/libraries/servo/}{Servo}'' to manage the servo motor for the window.\\\\
+    %
+    The Control Unit uses ``\href{https://mvnrepository.com/artifact/io.github.java-native/jssc/2.9.6}{jssc}'' to communicate through 
+    the serial line and ``\href{https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.5}{mqttv3}'' 
+    to use mqtt protocol.\\\\
+    %
+    The Dashboard uses ``\href{https://mvnrepository.com/artifact/org.jfree/jfreechart/1.5.0}{jfreechart}'' to create and draw charts.\\\\
+
+    \begin{figure}[H]
+        \centering{}
+            \includegraphics[width=\textwidth]{report/img/Assignment-03_SMT-Temperature-Subsystem.png}
+        \caption{Temperature Monitoring schema}
+        \label{img:temperature_schema}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering{}
+            \includegraphics[width=\textwidth]{report/img/Assignment-03_SMT-Window-Subsystem.png}
+        \caption{Window Controller schema}
+        \label{img:window_schema}
+    \end{figure}
+
+    \centerline{\href{https://github.com/Cinels/IoT-assignment-03}{Here} the link to the project's GitHub repo.}
+    \centerline{\href{}{Here} is the link to the demonstration video.}
     
 \end{document}
