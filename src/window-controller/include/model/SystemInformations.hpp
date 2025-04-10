@@ -2,7 +2,7 @@
 #define __SYSTEM_INFORMATIONS__
 
 /// @brief Enumerates the possible modes of the window system.
-typedef enum WindowMode {AUTOMATIC_MODE, MANUAL_MODE, DASHBOARD_MODE} WindowMode;
+typedef enum WindowMode {AUTOMATIC_MODE, USER_MODE, DASHBOARD_MODE} WindowMode;
 
 /// @brief Class that represents the system informations.
 class SystemInformations {

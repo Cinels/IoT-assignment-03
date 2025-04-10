@@ -35,7 +35,7 @@ void CommunicationTask::receiveMessage() {
                 if (this->systemInformations->getMode() == AUTOMATIC_MODE) this->systemInformations->switchMode(DASHBOARD_MODE);
                 else this->systemInformations->switchMode(AUTOMATIC_MODE);
             }
-            if (this->systemInformations->getMode() == MANUAL_MODE && opening != -1) {
+            if (this->systemInformations->getMode() == USER_MODE && opening != -1) {
                 this->systemInformations->switchMode(DASHBOARD_MODE);
                 this->prevOpening = opening;
             }
@@ -57,7 +57,7 @@ void CommunicationTask::sendMessage() {
 
         switch (this->systemInformations->getMode()) {
         case AUTOMATIC_MODE: Serial.println("AUTO"); break;
-        case MANUAL_MODE: Serial.println("MANU"); break;
+        case USER_MODE: Serial.println("MANU"); break;
         case DASHBOARD_MODE: Serial.println("DASH"); break;
         default: break;
         }/* */

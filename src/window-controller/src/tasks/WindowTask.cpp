@@ -7,15 +7,15 @@ WindowTask::WindowTask(UserPanel *userPanel, Window *window, SystemInformations 
     this->prevOpening = -1;
     this->prevManualOpening = -1;
     this->prevTemperature = 100.0;
-    this->prevMode = MANUAL_MODE;
+    this->prevMode = USER_MODE;
 }
 
 void WindowTask::tick() {
     if (this->systemInformations->getMode() == DASHBOARD_MODE && this->prevManualOpening != this->userPanel->getWindowManualOpening()) {
-        this->systemInformations->switchMode(MANUAL_MODE);
+        this->systemInformations->switchMode(USER_MODE);
         this->prevManualOpening = this->userPanel->getWindowManualOpening();
     }
-    this->window->setOpening(this->systemInformations->getMode() == MANUAL_MODE ?
+    this->window->setOpening(this->systemInformations->getMode() == USER_MODE ?
         this->userPanel->getWindowManualOpening() :
         this->systemInformations->getWindowOpeningGoal()
     );
