@@ -2,7 +2,7 @@
 .vscode/
 .venv
 .lck
-.mp4
+*.mp4
 .gradle
 bin/
 build/
